@@ -57,12 +57,10 @@ public static class TimeTickSystem
                     // fire off event if there are subscribers
                     if (OnTick != null)
                     {
-                        // null
-                        Debug.Log("not null");
                         OnTick(this, new OnTickEventArgs { tick = tick });
                     }
 
-                    if (tick % 5 == 0 && OnTick5 != null)
+                    if (OnTick5 != null && tick % 5 == 0)
                     {
                         OnTick5(this, new OnTickEventArgs { tick = tick });
                     }

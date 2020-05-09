@@ -14,15 +14,14 @@ public class ResourceController : MonoBehaviour
     float payOutTimer = 7f;
 
 
-    ResourceCost toBePayedIn = new ResourceCost(ResourceType.WOOD, 100);
-    ResourceCost toBePayedOut = new ResourceCost(ResourceType.WOOD, 70);
-
+    ResourceCost toBePayedIn = ResourceCostFactory.Create(ResourceType.WOOD, 100);
+    ResourceCost toBePayedOut = ResourceCostFactory.Create(ResourceType.WOOD, 70);
 
 
     // Start is called before the first frame update
     void Start()
     {
-        res = new ResourceStore(ResourceType.WOOD, 100);
+        res = ResourceStoreFactory.Create(ResourceType.WOOD);
     }
 
     // Update is called once per frame

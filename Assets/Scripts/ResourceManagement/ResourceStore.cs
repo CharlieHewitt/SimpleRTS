@@ -1,22 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
+// Note CodeLens for blame/references etc settings
 public class ResourceStore
 {
     public ResourceType type { get; private set; }
     public int storedResources { get; private set; }
 
-    public ResourceStore(ResourceType type, int initialResourceAmount)
+    public ResourceStore(ResourceType type)
     {
         this.type = type;
-        this.storedResources = initialResourceAmount;
+        this.storedResources = 0;
     }
 
     public void PayIn(ResourceCost cost)
     {
         if (!CheckCorrectResource(cost))
         {
-            // error
+            // error -> wrong resource type
             return;
         }
 
@@ -28,7 +29,7 @@ public class ResourceStore
     {
         if (!CheckPayOutPossible(cost) || !CheckCorrectResource(cost))
         {
-            // error
+            // error -> not enough resources || wrong resource type
             return;
         }
 

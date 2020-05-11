@@ -11,7 +11,7 @@ public abstract class BuildingModel
 
     protected ResourceTransaction buildCost;
 
-    // generic method to define building cost { eventually could be from a database or something }
+    // generic method to define building cost (eventually could be from a database or something)
     protected abstract ResourceTransaction InitialiseCost();
 
 

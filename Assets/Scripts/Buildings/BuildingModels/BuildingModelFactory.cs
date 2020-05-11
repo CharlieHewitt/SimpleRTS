@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class BuildingModelFactory
 {
-    public static BuildingModel Create(BuildingType type)
+    public static BuildingModel Create(BuildingType buildingType)
     {
-        switch(type)
+        switch(buildingType)
         {
             case BuildingType.BLACKSMITHS:
                 return new BlacksmithsModel();
@@ -18,7 +18,7 @@ public static class BuildingModelFactory
                 return new MagicalWandShopModel();
 
             default:
-                Debug.LogError(string.Format("No BuildingModel has been implemented for {0}", type));
+                Debug.LogError(string.Format("No BuildingModel has been implemented for {0}", buildingType));
                 return null;
         }
     }

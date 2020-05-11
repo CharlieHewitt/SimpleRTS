@@ -8,7 +8,6 @@ public class BuildPlotCollection
     private int numPlots;
     private BuildPlot[] buildPlots;
 
-
     public BuildPlotCollection(int initialNumPlots)
     {
         numPlots = initialNumPlots;

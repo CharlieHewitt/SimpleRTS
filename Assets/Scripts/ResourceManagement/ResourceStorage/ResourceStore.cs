@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 // Note CodeLens for blame/references etc settings
 public class ResourceStore
@@ -10,7 +11,7 @@ public class ResourceStore
     public ResourceStore(ResourceType type)
     {
         this.type = type;
-        this.storedResources = 0;
+        storedResources = 0;
     }
 
     public void PayIn(ResourceCost cost)
@@ -21,7 +22,7 @@ public class ResourceStore
             return;
         }
 
-
+        //Debug.Log(cost.FormattedStatusString());
         storedResources += cost.amount;
     }
 
@@ -38,7 +39,7 @@ public class ResourceStore
 
     public bool CheckPayOutPossible(ResourceCost cost)
     {
-        return storedResources > cost.amount;
+        return storedResources >= cost.amount;
     }
 
     public bool CheckCorrectResource(ResourceCost cost)

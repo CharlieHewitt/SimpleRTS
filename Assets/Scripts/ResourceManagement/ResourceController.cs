@@ -4,50 +4,62 @@ using UnityEngine;
 
 public class ResourceController : MonoBehaviour
 {
-    private ResourceStore res;
+    private ResourceGatheringController gatheringController;
 
-    // TODO: implement the map & multiple resourceStores
-    private Dictionary<ResourceType, ResourceStore> resourceStores;
-
-    // Variables for testing
-    float payInTimer = 4f;
-    float payOutTimer = 7f;
-
-
-    ResourceCost toBePayedIn = ResourceCostFactory.Create(ResourceType.WOOD, 100);
-    ResourceCost toBePayedOut = ResourceCostFactory.Create(ResourceType.WOOD, 70);
-
+    // RESOURCESTOREMAP -> seperate class?
+    private ResourceStoreMap resourceStoreMap;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        res = ResourceStoreFactory.Create(ResourceType.WOOD);
+        gatheringController = new ResourceGatheringController();
+        resourceStoreMap = new ResourceStoreMap();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        payInTimer -= Time.deltaTime;
-        payOutTimer -= Time.deltaTime;
-
-        if (payInTimer <= 0f)
+        // tests for workers -> write automated ones!
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            payInTimer = 4f;
-            res.PayIn(toBePayedIn);
-            OutputToConsole();
+            gatheringController.AddWorker(ResourceType.WOOD);
         }
-
-        if (payOutTimer <= 0f)
+        else if (Input.GetKeyDown(KeyCode.W))
         {
-            payOutTimer = 7f;
-            res.PayOut(toBePayedOut);
-            OutputToConsole();
+            gatheringController.RemoveWorker(ResourceType.WOOD);
+
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            gatheringController.AddWorker(ResourceType.MAGIC_STONE);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            gatheringController.RemoveWorker(ResourceType.MAGIC_STONE);
         }
     }
 
 
-    void OutputToConsole()
+    /** 
+     *  Error handling on these + these will be called by commands!
+     */
+
+    public void PayInTransaction(ResourceTransaction transaction)
     {
-        Debug.Log(res.FormattedStatusString());
+        resourceStoreMap.PayInTransaction(transaction);
+
+        // Update view
     }
+
+    public void PayOutTransaction(ResourceTransaction transaction)
+    {
+        resourceStoreMap.PayOutTransaction(transaction);
+
+
+        // Update view
+    }
+
+
+
 }
+

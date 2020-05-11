@@ -35,9 +35,9 @@ public class TestSubscriber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            b = new TestBuilding(new Vector3(0, 5, 4), 30);
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    b = new TestBuilding(new Vector3(0, 5, 4), 30);
+        //}
     }
 }

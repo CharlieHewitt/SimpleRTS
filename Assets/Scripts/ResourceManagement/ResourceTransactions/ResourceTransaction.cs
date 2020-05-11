@@ -8,16 +8,27 @@ public class ResourceTransaction
     // iterable list of ResourceCosts
 
     public List<ResourceCost> resourceCosts {  get; private set; }
-    public bool toBePayedIn { get; private set; }
 
-    public ResourceTransaction(bool toBePayedIn)
+
+    public ResourceTransaction()
     {
         resourceCosts = new List<ResourceCost>();
-        this.toBePayedIn = toBePayedIn;
     }
 
     public void AddResourceCost(ResourceCost cost)
     {
         resourceCosts.Add(cost);
+    }
+
+    public string FormattedStatusString() 
+    {
+        string output = "ResourceTransaction:\n";
+        
+        foreach (ResourceCost cost in resourceCosts)
+        {
+            output += cost.FormattedStatusString() + "  ";
+        }
+
+        return output;
     }
 }

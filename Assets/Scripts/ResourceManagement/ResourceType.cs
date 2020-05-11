@@ -5,5 +5,5 @@ using UnityEngine;
 public enum ResourceType
 {
     WOOD,
-    MAGICSTONE
+    MAGIC_STONE
 }

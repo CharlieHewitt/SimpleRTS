@@ -12,4 +12,9 @@ public class ResourceCost
         this.type = type;
         this.amount = amount;
     }
+
+    public string FormattedStatusString()
+    {
+        return string.Format("{0} ({1})", type, amount);
+    }
 }

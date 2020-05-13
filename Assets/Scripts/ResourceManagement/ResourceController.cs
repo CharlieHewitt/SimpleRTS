@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ResourceController : MonoBehaviour
 {
-    private ResourceGatheringController gatheringController;
+    public ResourceGatheringController gatheringController { get; private set; }
 
     // RESOURCESTOREMAP -> seperate class?
     private ResourceStoreMap resourceStoreMap;

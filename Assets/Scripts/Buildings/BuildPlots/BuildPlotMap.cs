@@ -23,6 +23,8 @@ public class BuildPlotMap
         }
     }
 
+    // TODO: implement status string iterator method
+
 }
 
 

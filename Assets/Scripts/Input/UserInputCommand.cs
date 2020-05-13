@@ -7,5 +7,5 @@ public abstract class UserInputCommand
     // could be useful for reference/ resetting!
     private KeyCode defaultKey;
 
-    public void Execute();
+    public abstract void Execute();
 }

@@ -42,7 +42,7 @@ public class BuildPlot
 
     public string StatusString()
     {
-        return (string.Format("Build plot information:\nPosition: ({0},{1}) Building: {2}", position.x, position.y, buildingType));
+        return (string.Format("Build plot information:\nPosition: ({0}) Building: {1}",location, buildingType));
     }
 
 }

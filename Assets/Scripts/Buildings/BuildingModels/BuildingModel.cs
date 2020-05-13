@@ -4,12 +4,12 @@ using UnityEngine;
 
 public abstract class BuildingModel
 {
-    protected BuildingType type;
+    public BuildingType type { get; protected set; }
 
     // game ticks
-    protected int constructionTime;
+    public int constructionTime { get; protected set; }
 
-    protected ResourceTransaction buildCost;
+    public ResourceTransaction buildCost { get; protected set; }
 
     // generic method to define building cost (eventually could be from a database or something)
     protected abstract ResourceTransaction InitialiseCost();

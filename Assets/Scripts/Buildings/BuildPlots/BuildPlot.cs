@@ -6,12 +6,15 @@ using UnityEngine;
 public class BuildPlot
 {
     public BuildingType buildingType { get; private set; }
-    public Vector3 position { get; private set; }
+    public BuildPlotLocation location { get; private set; }
 
-    public BuildPlot(Vector3 pos)
+    // figure out how to use this one to stop multiple commands on same buildingplot queue up!
+    public bool isUnderConstruction { get; private set; }
+
+    public BuildPlot(BuildPlotLocation location)
     {
         buildingType = BuildingType.NONE;
-        position = pos;
+        this.location = location;
     }
 
     public void Build(BuildingType type)

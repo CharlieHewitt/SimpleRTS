@@ -26,15 +26,16 @@ public class ResourceStore
         storedResources += cost.amount;
     }
 
-    public void PayOut(ResourceCost cost)
+    public bool PayOut(ResourceCost cost)
     {
         if (!CheckPayOutPossible(cost) || !CheckCorrectResource(cost))
         {
+            return false;
             // error -> not enough resources || wrong resource type
-            return;
         }
 
         storedResources -= cost.amount;
+        return true;
     }
 
     public bool CheckPayOutPossible(ResourceCost cost)

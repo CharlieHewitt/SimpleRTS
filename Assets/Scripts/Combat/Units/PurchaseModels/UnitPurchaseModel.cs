@@ -4,16 +4,16 @@ using UnityEngine;
 
 public abstract class UnitPurchaseModel
 {
-    protected UnitType type;
+    public UnitType unitType { get; protected set; }
 
     // game ticks
-    protected int trainingTime;
+    public int trainingTime { get; protected set; }
 
-    protected int armySize;
+    public int armySize { get; protected set; }
 
-    protected ResourceTransaction buildCost;
+    public ResourceTransaction buildCost { get; protected set; }
 
-    protected BuildingType prerequisite;
+    public BuildingType prerequisite { get; protected set; }
 
     // generic method to define unit cost (eventually could be from a database or something)
     protected abstract ResourceTransaction InitialiseCost();

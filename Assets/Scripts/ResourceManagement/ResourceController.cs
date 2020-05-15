@@ -5,6 +5,7 @@ using UnityEngine;
 public class ResourceController : MonoBehaviour
 {
     public ResourceGatheringController gatheringController { get; private set; }
+    public ResourceAmountView_Text resourceAmounts;
 
     // RESOURCESTOREMAP -> seperate class?
     private ResourceStoreMap resourceStoreMap;
@@ -47,13 +48,27 @@ public class ResourceController : MonoBehaviour
     public void PayInTransaction(ResourceTransaction transaction)
     {
         resourceStoreMap.PayInTransaction(transaction);
+        resourceAmounts.UpdateText(resourceStoreMap.StoredResourcesStatusString());
 
         // Update view
     }
 
-    public void PayOutTransaction(ResourceTransaction transaction)
+
+    // BOOL!
+    public bool PayOutTransaction(ResourceTransaction transaction)
     {
+        if (resourceStoreMap.IsTransactionPossible(transaction))
+        {
         resourceStoreMap.PayOutTransaction(transaction);
+        resourceAmounts.UpdateText(resourceStoreMap.StoredResourcesStatusString());
+            return true;
+        }
+        else
+        {
+            Debug.LogError("Transaction rejected, not enough resources");
+            return false;
+        }
+
 
 
         // Update view

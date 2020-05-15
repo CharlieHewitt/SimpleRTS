@@ -7,7 +7,7 @@ public class WizardPurchaseModel : UnitPurchaseModel
 {
     public WizardPurchaseModel()
     {
-        type = UnitType.WIZARD;
+        unitType = UnitType.WIZARD;
         trainingTime = 60;
         armySize = 2;
         prerequisite = BuildingType.MAGICAL_WAND_SHOP;

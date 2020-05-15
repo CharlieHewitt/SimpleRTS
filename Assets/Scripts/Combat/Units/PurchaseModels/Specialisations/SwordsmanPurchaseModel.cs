@@ -3,22 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherPurchaseModel : UnitPurchaseModel
+public class SwordsmanPurchaseModel : UnitPurchaseModel
 {
-    public ArcherPurchaseModel()
+    public SwordsmanPurchaseModel()
     {
-        type = UnitType.ARCHER;
-        trainingTime = 40;
+        unitType = UnitType.SWORDSMAN;
+        trainingTime = 20;
         armySize = 1;
         buildCost = InitialiseCost();
-        prerequisite = BuildingType.FLETCHERS_WORKSHOP;
+        prerequisite = BuildingType.BLACKSMITHS;
     }
 
     protected override ResourceTransaction InitialiseCost()
     {
         ResourceTransaction transaction = ResourceTransactionFactory.Create();
 
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 100));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 75));
         transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 0));
 
         return transaction;

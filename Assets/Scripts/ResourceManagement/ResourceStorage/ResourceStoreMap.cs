@@ -74,12 +74,15 @@ public class ResourceStoreMap
         Debug.Log(StoredResourcesStatusString());
     }
 
+
+    // POTENTIAL BIG BUG -> CHECK ALL COSTS BEFORE TRANSACTING ANY => FIX
     public void PayOutTransaction(ResourceTransaction transaction)
     {
+        bool success = true;
         foreach (ResourceCost cost in transaction.resourceCosts)
         {
             ResourceType type = cost.type;
-            resourceStores[type].PayOut(cost);
+            success = resourceStores[type].PayOut(cost);
         }
     }
 

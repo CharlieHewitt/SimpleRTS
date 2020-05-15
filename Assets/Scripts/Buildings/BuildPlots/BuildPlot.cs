@@ -11,15 +11,27 @@ public class BuildPlot
     // figure out how to use this one to stop multiple commands on same buildingplot queue up!
     public bool isUnderConstruction { get; private set; }
 
+    // These values are updated when a new building is constructed
+    private int constructedTicks;
+    private int constructionTime;
+
     public BuildPlot(BuildPlotLocation location)
     {
         buildingType = BuildingType.NONE;
         this.location = location;
+        isUnderConstruction = false;
+        constructedTicks = 0;
+        constructionTime = 0;
     }
 
-    public void Build(BuildingType type)
+    public bool IsEmpty()
     {
-        if (buildingType != BuildingType.NONE)
+        return (buildingType == BuildingType.NONE);
+    }
+
+    public void Build(BuildingType type, BuildingModel buildingModel)
+    {
+        if (!IsEmpty())
         {
             Debug.Log(string.Format("Can't build {0}. There is already a building on this plot ({1})", type, buildingType));
             return;
@@ -27,11 +39,14 @@ public class BuildPlot
 
         // update state
         buildingType = type;
+        isUnderConstruction = true;
+
+        BuildForTicks(buildingModel.constructionTime);
     }
 
-    public void Demolish(BuildingType type)
+    public void Demolish()
     {
-        if (buildingType == BuildingType.NONE)
+        if (IsEmpty())
         {
             Debug.Log("Can't demolish. There is no building on this plot.");
         }
@@ -42,7 +57,36 @@ public class BuildPlot
 
     public string StatusString()
     {
-        return (string.Format("Build plot information:\nPosition: ({0}) Building: {1}",location, buildingType));
+        return (string.Format("Plot {0} = {1}",location, buildingType));
+    }
+
+
+    // ------------------------ Time Tick Building
+
+    public void BuildForTicks(int ticks)
+    {
+        constructedTicks = 0;
+        constructionTime = ticks;
+        TimeTickSystem.OnTick += OnTickEventHandler;
+    }
+
+    public void OnTickEventHandler(object sender, TimeTickSystem.OnTickEventArgs e)
+    {
+        if (constructedTicks < constructionTime)
+        {
+            constructedTicks++;
+        }
+        else
+        {
+            isUnderConstruction = false;
+            Unsubscribe();
+            Debug.Log("command succesfully executed.");
+        }
+    }
+
+    public void Unsubscribe()
+    {
+        TimeTickSystem.OnTick -= OnTickEventHandler;
     }
 
 }

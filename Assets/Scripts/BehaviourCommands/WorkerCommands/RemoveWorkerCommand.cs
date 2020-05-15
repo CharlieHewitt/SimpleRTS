@@ -11,18 +11,17 @@ public class RemoveWorkerCommand : GameBehaviourCommand
         this.resourceType = resourceType;
     }
 
-    public override void OnCreate()
+    public override bool OnCreate()
     {
+        return true;
+
         // nothing special for AddWorkerCommand
     }
 
     public override void Execute()
     {
-        // find controller -> will eventually be smoother
-        ResourceController resourceController = GameObject.Find("Resource System").GetComponent<ResourceController>();
-
-        // add worker
-        resourceController.gatheringController.RemoveWorker(resourceType);
+        // remove worker
+        GetResourceController().gatheringController.RemoveWorker(resourceType);
 
     }
 }

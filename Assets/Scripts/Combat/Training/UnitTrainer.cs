@@ -13,6 +13,7 @@ public class UnitTrainer : MonoBehaviour
 
     public UnitTrainer()
     {
+        isTraining = false;
         currentTick = 0;
         requiredTicks = 0;
         model = null;
@@ -20,12 +21,13 @@ public class UnitTrainer : MonoBehaviour
 
     public void StartTraining(UnitPurchaseModel model)
     {
+        this.model = model;
         isTraining = true;
 
         requiredTicks = model.trainingTime;
         currentTick = 0;
 
-        TimeTickSystem.OnTick += OnTick;
+        TimeTickSystem.OnTick += UnitTrainer_OnTick;
     }
 
     public void UpdateTraining()
@@ -33,23 +35,26 @@ public class UnitTrainer : MonoBehaviour
         if (currentTick < requiredTicks)
         {
             currentTick++;
+            Debug.Log(string.Format("Training {0}/{1}", currentTick, requiredTicks));
         }
         else
         {
             Unsubscribe();
+            Debug.Log("training complete");
+            GameObject.Find("ArmyController").GetComponent<ArmyController>().AddCompleteUnit(model);
             isTraining = false;
             // unit complete -> notify ArmyController to add unit to army
             // fetch next from queue if possible
         }
     }
 
-    public void OnTick(object sender, TimeTickSystem.OnTickEventArgs e)
+    public void UnitTrainer_OnTick(object sender, TimeTickSystem.OnTickEventArgs e)
     {
         UpdateTraining();
     }
 
     public void Unsubscribe()
     {
-        TimeTickSystem.OnTick -= OnTick;
+        TimeTickSystem.OnTick -= UnitTrainer_OnTick;
     }
 }

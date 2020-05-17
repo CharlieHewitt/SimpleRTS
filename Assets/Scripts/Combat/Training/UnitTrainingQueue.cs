@@ -35,6 +35,8 @@ public class UnitTrainingQueue
         {
             UnitPurchaseModel model = trainingQueue.Dequeue();
             trainer.StartTraining(model);
+
+            Debug.Log(QueueStatus());
         }
     }
 
@@ -54,6 +56,20 @@ public class UnitTrainingQueue
     public void Unsubscribe()
     {
         TimeTickSystem.OnTick -= OnTick;
+    }
+
+    public string QueueStatus()
+    {
+        string output = "unitQueue: ";
+
+        foreach (UnitPurchaseModel model in trainingQueue)
+        {
+            output += string.Format("{0} , ", model.unitType);
+        }
+
+        output += string.Format(" ({0})", trainingQueue.Count);
+
+        return output;
     }
 
 }

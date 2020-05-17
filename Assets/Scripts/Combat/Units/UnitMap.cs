@@ -15,6 +15,12 @@ public class UnitMap
         SetToDefault();
     }
 
+    // copy constructor
+    public UnitMap(UnitMap map)
+    {
+        units = new Dictionary<UnitType, int>(map.units);
+    }
+
     private void SetToDefault()
     {
         foreach (UnitType unitType in Enum.GetValues(typeof(UnitType)).Cast<UnitType>())
@@ -27,9 +33,9 @@ public class UnitMap
     {
         string output = "Army:\n";
 
-        foreach (UnitType unit in units.Keys)
+        foreach (UnitType type in units.Keys)
         {
-            output += string.Format("{0} ({1}) ", unit, units[unit]);
+            output += string.Format("{0} ({1}) ", type, units[type]);
         }
 
         return output;
@@ -55,6 +61,10 @@ public class UnitMap
         units[unitType] -= amount;
     }
 
+    public int GetNumber(UnitType unitType)
+    {
+        return units[unitType];
+    }
 }
 
 

@@ -39,4 +39,14 @@ public class GameBehaviourCommandController : MonoBehaviour
     {
         QueueUpCommand(BuildingCommandFactory.CreateConstructBuildingCommand(BuildPlotLocation.NORTH_EAST, BuildingType.MAGICAL_WAND_SHOP));
     }
+
+    public void BuildWizard()
+    {
+        QueueUpCommand(ArmyCommandFactory.CreateBuyUnitCommand(UnitType.WIZARD));
+    }
+
+    public void BuildSwordsman()
+    {
+        QueueUpCommand(ArmyCommandFactory.CreateBuyUnitCommand(UnitType.SWORDSMAN));
+    }
 }

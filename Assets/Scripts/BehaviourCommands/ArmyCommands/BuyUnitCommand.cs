@@ -25,9 +25,25 @@ public class BuyUnitCommand : GameBehaviourCommand
     public override void Execute()
     {
         Debug.Log("buy unit command executing");
+        ArmyController armyController = GetArmyController();
+        ResourceController resourceController = GetResourceController();
 
         model = UnitPurchaseModelFactory.Create(unitType);
 
+        bool supplyAvailable = armyController.CheckSupply(model);
+        
+        if (!supplyAvailable)
+        {
+            // abort
+            Debug.LogError("no supply available");
+            return;
+        }
+
+        // transaction succeeds
+        if (resourceController.PayOutTransaction(model.buildCost))
+        {
+            armyController.AddUnitToBuildQueue(model);
+        }
         // Get ArmyController.CheckSupply()
         // Try Transaction
         // If works

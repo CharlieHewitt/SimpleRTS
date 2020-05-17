@@ -6,15 +6,17 @@ using UnityEngine;
 // handles initialisation & testing of TimeTickSystem
 public class TestSubscriber : MonoBehaviour
 {
-    private TestBuilding b;
-
     [SerializeField]
     private bool outputTicksToConsole = false;
+    private GameLengthClock clock;
+    private CountdownClock combatClock;
     // Start is called before the first frame update
     void Start()
     {
         // move this to main game handler! for when game starts ig
         TimeTickSystem.Create();
+        clock = new GameLengthClock();
+        combatClock = new CountdownClock(1, 1);
 
 
         // event handlers for logging ticks
@@ -35,9 +37,6 @@ public class TestSubscriber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    b = new TestBuilding(new Vector3(0, 5, 4), 30);
-        //}
+
     }
 }

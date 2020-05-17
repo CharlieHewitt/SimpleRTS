@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// This is a wrapper controlling access to a map of <BuildPlotLocation, BuildPlot>
+// CHECK PREREQS FOR BUILDING UNITS
 public class Army
 {
     private UnitMap unitMap;
@@ -15,15 +15,31 @@ public class Army
 
     public Army()
     {
+        queue = new UnitTrainingQueue();
         unitMap = new UnitMap();
+        currentSupply = 0;
+        maxSupply = 20;
     }
 
     public string StatusString()
     {
-        return unitMap.StatusString();
+        string output = string.Format("supply: {0}/{1}\n", currentSupply, maxSupply);
+        return output += unitMap.StatusString();
+    }
+
+    public string QueueStatus()
+    {
+        return queue.QueueStatus();
     }
 
     public void AddUnit(UnitPurchaseModel model)
+    {
+        queue.AddToQueue(model);
+    }
+
+
+    // To be called by UnitTrainer
+    public void AddCompleteUnit(UnitPurchaseModel model)
     {
         unitMap.Add(model.unitType);
     }
@@ -35,7 +51,7 @@ public class Army
 
     public bool CheckSupply(UnitPurchaseModel model)
     {
-        return (model.armySize + currentSupply <= maxSupply);
+        return (model.armySize + currentSupply) <= maxSupply;
     }
 
 
@@ -46,9 +62,12 @@ public class Army
     }
 
     // Maybe needed for post combat situations
-    public void ResetSupply(int num)
+    public void RemoveSupply(int num)
     {
-
+        if (currentSupply >= num)
+        {
+            currentSupply -= num;
+        }
     }
 
 

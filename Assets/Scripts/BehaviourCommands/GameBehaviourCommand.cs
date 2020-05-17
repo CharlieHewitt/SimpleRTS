@@ -34,4 +34,9 @@ public abstract class GameBehaviourCommand
     {
         return GameObject.Find("GameBehaviourController").GetComponent<GameBehaviourCommandController>().buildPlotController;
     }
+
+    protected ArmyController GetArmyController()
+    {
+        return GameObject.Find("ArmyController").GetComponent<ArmyController>();
+    }
 }

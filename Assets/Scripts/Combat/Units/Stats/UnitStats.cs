@@ -12,6 +12,35 @@ public abstract class UnitStats
     public int attackSpeed { get; protected set; }
 
     public int health { get; protected set; }
+    
+    
+    
+    // ----------------------------------- Combat related methods, probably should be in a wrapper but ah well
+    
+    // Return value -> Is unit still alive
+    public bool TakeDamage(int damage)
+    {
+        bool alive = true;
+
+        if (damage >= health)
+        {
+            health = 0;
+            alive = false;
+        }
+        else
+        {
+            health -= damage;
+        }
+
+
+        return alive;
+    }
+
+    // for type modifications
+    public int CalculateDamageAgainst(UnitType unitType)
+    {
+        return attackDamage;
+    }
 
 
     //// Strength/ Weakness grants a {20%} damage boost

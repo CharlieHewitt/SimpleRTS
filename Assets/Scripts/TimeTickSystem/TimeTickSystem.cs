@@ -21,7 +21,7 @@ public static class TimeTickSystem
     private static GameObject timeTickSystemGameObject;
 
     // .2f = 200ms
-    private const float TICK_TIMER_MAX = .2f;
+    public const float TICK_TIMER_MAX = .2f;
 
     private static int tick;
 

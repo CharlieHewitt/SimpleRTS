@@ -8,8 +8,8 @@ public class ArcherStats : UnitStats
     public ArcherStats()
     {
         unitType = UnitType.ARCHER;
-        attackDamage = 45;
+        attackDamage = 120;
         attackSpeed = 1;
-        health = 100;
+        health = 70;
     }
 }

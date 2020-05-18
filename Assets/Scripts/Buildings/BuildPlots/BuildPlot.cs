@@ -81,6 +81,9 @@ public class BuildPlot
             isUnderConstruction = false;
             Unsubscribe();
             Debug.Log("command succesfully executed.");
+
+           // update view on building completion!!
+           // GameObject.Find("BuildPlotController").GetComponent<BuildPlotController>().UpdateBuildPlotView(location);
         }
     }
 

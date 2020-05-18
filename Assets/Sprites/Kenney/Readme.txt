@@ -1,0 +1,1 @@
+Licences for the ui kits are in the individual folders! - somewhere in the middle as they are called License.txt

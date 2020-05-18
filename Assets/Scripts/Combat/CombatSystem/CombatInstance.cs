@@ -30,19 +30,18 @@ public class CombatInstance
 
     public void SetUpCombatInstance()
     {
-        UnitMap testMap = new UnitMap();
-        testMap.AddMultiple(UnitType.SWORDSMAN, 40);
-        // testMap.Add(UnitType.SWORDSMAN);
-        testMap.AddMultiple(UnitType.SWORDSMAN, 20);
-        testMap.AddMultiple(UnitType.WIZARD, 20);
-        testMap.AddMultiple(UnitType.ARCHER, 20);
+        UnitMap testMap = GameObject.Find("ArmyController").GetComponent<ArmyController>().GetUnitsForCombat();
+        //testMap.AddMultiple(UnitType.SWORDSMAN, 40);
+        //// testMap.Add(UnitType.SWORDSMAN);
+        //testMap.AddMultiple(UnitType.SWORDSMAN, 20);
+        //testMap.AddMultiple(UnitType.WIZARD, 20);
+        //testMap.AddMultiple(UnitType.ARCHER, 20);
 
 
         UnitMap testMap2 = new UnitMap();
-        testMap2.AddMultiple(UnitType.ARCHER, 20);
-        testMap2.AddMultiple(UnitType.SWORDSMAN, 60);
+        testMap2.AddMultiple(UnitType.ARCHER, 10);
+        //testMap2.AddMultiple(UnitType.SWORDSMAN, 60);
         testMap2.Add(UnitType.SWORDSMAN);
-
         SetPlayer1Units(testMap);
         SetPlayer2Units(testMap2);
     }

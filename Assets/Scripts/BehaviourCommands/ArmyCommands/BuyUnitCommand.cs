@@ -44,6 +44,7 @@ public class BuyUnitCommand : GameBehaviourCommand
         {
             armyController.AddUnitToBuildQueue(model);
         }
+
         // Get ArmyController.CheckSupply()
         // Try Transaction
         // If works

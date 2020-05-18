@@ -1,20 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ResourceController : MonoBehaviour
 {
     public ResourceGatheringController gatheringController { get; private set; }
-    public ResourceAmountView_Text resourceAmounts;
 
-    // RESOURCESTOREMAP -> seperate class?
     private ResourceStoreMap resourceStoreMap;
+
+    // views
+    private Dictionary<ResourceType, ResourceStoreView> resourceStoreViews;
 
     // Start is called before the first frame update
     private void Start()
     {
         gatheringController = new ResourceGatheringController();
         resourceStoreMap = new ResourceStoreMap();
+        InitialiseResourceStoreViews();
+        UpdateResourceStoreViews();
     }
 
     // Update is called once per frame
@@ -48,7 +53,7 @@ public class ResourceController : MonoBehaviour
     public void PayInTransaction(ResourceTransaction transaction)
     {
         resourceStoreMap.PayInTransaction(transaction);
-        resourceAmounts.UpdateText(resourceStoreMap.StoredResourcesStatusString());
+        UpdateResourceStoreViews();
 
         // Update view
     }
@@ -57,17 +62,19 @@ public class ResourceController : MonoBehaviour
     // BOOL!
     public bool PayOutTransaction(ResourceTransaction transaction)
     {
+        bool success = false;
         if (resourceStoreMap.IsTransactionPossible(transaction))
         {
-        resourceStoreMap.PayOutTransaction(transaction);
-        resourceAmounts.UpdateText(resourceStoreMap.StoredResourcesStatusString());
-            return true;
+            resourceStoreMap.PayOutTransaction(transaction);
+            success = true;
+            UpdateResourceStoreViews();
         }
         else
         {
             Debug.LogError("Transaction rejected, not enough resources");
-            return false;
         }
+
+        return success;
 
 
 
@@ -75,6 +82,22 @@ public class ResourceController : MonoBehaviour
     }
 
 
+
+    // View related code
+
+    private void InitialiseResourceStoreViews()
+    {
+        resourceStoreViews = new Dictionary<ResourceType, ResourceStoreView>();
+
+        resourceStoreViews[ResourceType.WOOD] = GameObject.Find("Wood ResourceStoreView").GetComponent<ResourceStoreView>();
+        resourceStoreViews[ResourceType.MAGIC_STONE] = GameObject.Find("MagicStone ResourceStoreView").GetComponent<ResourceStoreView>();
+    }
+
+    private void UpdateResourceStoreViews()
+    {
+        resourceStoreViews[ResourceType.WOOD].UpdateStoredResources(resourceStoreMap.GetStoredResources(ResourceType.WOOD));
+        resourceStoreViews[ResourceType.MAGIC_STONE].UpdateStoredResources(resourceStoreMap.GetStoredResources(ResourceType.MAGIC_STONE));
+    }
 
 }
 

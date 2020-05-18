@@ -98,4 +98,9 @@ public class ResourceStoreMap
         return output;
     }
 
+    public string GetStoredResources(ResourceType type)
+    {
+        return (resourceStores[type].storedResources.ToString());
+    }
+
 }

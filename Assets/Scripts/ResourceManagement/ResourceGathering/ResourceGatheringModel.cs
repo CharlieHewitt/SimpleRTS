@@ -125,6 +125,16 @@ public class ResourceGatheringModel
         return transaction;
     }
 
+    public int GetNumWorkers(ResourceType type)
+    {
+        return workerCounts[type];
+    }
+
+    public int GetNumIdleWorkers()
+    {
+        return idleWorkers;
+    }
+
     public string GetWorkerStatusString()
     {
         string output = "Currently assigned workers:\n";

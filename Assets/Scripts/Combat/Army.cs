@@ -7,11 +7,13 @@ using UnityEngine;
 // CHECK PREREQS FOR BUILDING UNITS
 public class Army
 {
-    private UnitMap unitMap;
+    public UnitMap unitMap { get; private set; }
     private UnitTrainingQueue queue;
 
     private int currentSupply;
     private int maxSupply;
+
+
 
     public Army()
     {
@@ -69,6 +71,17 @@ public class Army
             currentSupply -= num;
         }
     }
+
+    public int GetNumber(UnitType type)
+    {
+        return unitMap.GetNumber(type);
+    }
+
+    public string SupplyStatus()
+    {
+        return string.Format("{0}/{1}", currentSupply, maxSupply);
+    }
+
 
 
 }

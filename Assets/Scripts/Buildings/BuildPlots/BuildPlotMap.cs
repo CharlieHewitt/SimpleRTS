@@ -35,6 +35,16 @@ public class BuildPlotMap
         return output;
     }
 
+    public BuildingType GetBuilding(BuildPlotLocation location)
+    {
+        return buildPlots[location].buildingType;
+    }
+
+
+    public bool IsUnderConstruction(BuildPlotLocation location)
+    {
+        return buildPlots[location].isUnderConstruction;
+    }
 
     // Safety functions
     public bool IsBuildable(BuildPlotLocation location)
@@ -51,6 +61,7 @@ public class BuildPlotMap
     // Check if buildable before this!
     public void Build(BuildPlotLocation location, BuildingType buildingType, BuildingModel buildingModel)
     {
+
         buildPlots[location].Build(buildingType, buildingModel);
     }
 

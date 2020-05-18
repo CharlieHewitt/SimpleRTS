@@ -31,4 +31,20 @@ public class ResourceTransaction
 
         return output;
     }
+
+
+    // --- For views
+
+    public string GetResourceCost(ResourceType type)
+    {
+        foreach(ResourceCost cost in resourceCosts)
+        {
+            if (cost.type == type)
+            {
+                return cost.amount.ToString();
+            }
+        }
+
+        return "0";
+    }
 }

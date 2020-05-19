@@ -16,7 +16,7 @@ public class GameLengthClock : GameClock
             IncreaseBySecond();
             // Update view
 
-           // Debug.Log(string.Format("{0}:{1}", minutes, seconds));
+            Debug.Log(string.Format("{0}:{1}", minutes, seconds));
         }
     }
 }

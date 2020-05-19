@@ -7,14 +7,16 @@ using UnityEngine;
 // This is a wrapper controlling access to a map of <BuildPlotLocation, BuildPlot>
 public class UnitTrainingQueue
 {
+    private PlayerType playerType;
     private Queue<UnitPurchaseModel> trainingQueue;
 
     private UnitTrainer trainer;
 
-    public UnitTrainingQueue()
+    public UnitTrainingQueue(PlayerType playerType)
     {
+        this.playerType = playerType;
         trainingQueue = new Queue<UnitPurchaseModel>(); 
-        trainer = new UnitTrainer();
+        trainer = new UnitTrainer(playerType);
 
         StartTrainingQueue();
     }

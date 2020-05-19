@@ -7,37 +7,50 @@ using UnityEngine.UI;
 
 public class ResourceGatheringController
 {
+    private PlayerType playerType;
+
     public Dictionary<ResourceType, ResourceManagementView> resourceManagementViews;
     public IdleWorkerView idleView;
 
     public ResourceGatheringModel gatheringModel { get; private set; }
 
-    public ResourceGatheringController()
+    public ResourceGatheringController(PlayerType playerType)
     {
-        gatheringModel = new ResourceGatheringModel();
+        this.playerType = playerType;
+        gatheringModel = new ResourceGatheringModel(playerType);
         InitialiseResourceManagementViews();
     }
 
-    public void AddWorker(ResourceType type)
+    public bool AddWorker(ResourceType type)
     {
-        gatheringModel.AddWorker(type);
+        bool success = gatheringModel.AddWorker(type);
 
         UpdateViews(type);
+
+        return success;
     }
 
-    public void RemoveWorker(ResourceType type)
+    public bool RemoveWorker(ResourceType type)
     {
-        gatheringModel.RemoveWorker(type);
+        bool success = gatheringModel.RemoveWorker(type);
         UpdateViews(type);
+
+        return success;
     }
 
     public void AddNewWorkers(int numWorkers)
     {
         gatheringModel.IncreaseWorkerCount(numWorkers);
+        UpdateIdleWorkerView();
     }
     
-    public void InitialiseResourceManagementViews()
+    private void InitialiseResourceManagementViews()
     {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+
         //idleview
         resourceManagementViews = new Dictionary<ResourceType, ResourceManagementView>();
 
@@ -53,10 +66,24 @@ public class ResourceGatheringController
 
     }
 
-    public void UpdateViews(ResourceType type)
+    private void UpdateViews(ResourceType type)
     {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
         resourceManagementViews[type].UpdateText(gatheringModel.GetNumWorkers(type));
         idleView.UpdateText(gatheringModel.GetNumIdleWorkers());
+    }
+
+    private void UpdateIdleWorkerView()
+    {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+        idleView.UpdateText(gatheringModel.GetNumIdleWorkers());
+
     }
 
 }

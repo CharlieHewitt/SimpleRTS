@@ -2,39 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArmyController: MonoBehaviour
+public class ArmyController
 {
+    private PlayerType playerType;
+
     // models
-    private Army army;
+    public Army army { get; private set; }
 
     // views
     private Dictionary<UnitType, UnitView> unitViews;
     private ArmySupplyView supplyView;
 
-    private void Awake()
+    public ArmyController(PlayerType playerType)
     {
-        army = new Army();
+        this.playerType = playerType;
+        army = new Army(playerType);
         InitialiseUnitViews();
         InitialiseSupplyView();
 
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            //if (army.CheckSupply(UnitPurchaseModelFactory.Create(UnitType.WIZARD)))
-            //{
-            //    army.ReserveSupply(UnitPurchaseModelFactory.Create(UnitType.WIZARD));
-            //    army.AddUnit(UnitPurchaseModelFactory.Create(UnitType.WIZARD));
-            //}
-            //else
-            //{
-            //    Debug.Log("not enough supply available");
-            //}
-            Debug.Log(army.StatusString());
-            Debug.Log(army.QueueStatus());
-        }
     }
 
     public void AddCompleteUnit(UnitPurchaseModel model)
@@ -60,10 +45,22 @@ public class ArmyController: MonoBehaviour
     {
         return army.unitMap;
     }
-    // View related code
 
-    public void InitialiseUnitViews()
+    public void IncreaseSupplyCap(int number)
     {
+        army.IncreaseSupply(number);
+        UpdateSupplyView();
+    }
+
+    //--------------- View related code
+
+    private void InitialiseUnitViews()
+    {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+
         unitViews = new Dictionary<UnitType, UnitView>();
 
         unitViews[UnitType.SWORDSMAN] = GameObject.Find("UnitPanel - Swordsman").GetComponent<UnitView>();
@@ -71,24 +68,57 @@ public class ArmyController: MonoBehaviour
         unitViews[UnitType.WIZARD] = GameObject.Find("UnitPanel - Wizard").GetComponent<UnitView>();
     }
 
-    public void UpdateUnitView(UnitType type)
+    private void UpdateUnitView(UnitType type)
     {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+
         int numUnits = army.GetNumber(type);
         unitViews[type].UpdateNumUnits(numUnits);
     }
 
-    public void UpdateSupplyView()
+    private void UpdateSupplyView()
     {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+
         supplyView.UpdateSupply(army.SupplyStatus());
     }
 
-    public void InitialiseSupplyView()
+    private void InitialiseSupplyView()
     {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+
         supplyView = GameObject.Find("Important Numbers panel").GetComponent<ArmySupplyView>();
         UpdateSupplyView();
     }
 
+    // Legacy code --------------
 
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        //if (army.CheckSupply(UnitPurchaseModelFactory.Create(UnitType.WIZARD)))
+    //        //{
+    //        //    army.ReserveSupply(UnitPurchaseModelFactory.Create(UnitType.WIZARD));
+    //        //    army.AddUnit(UnitPurchaseModelFactory.Create(UnitType.WIZARD));
+    //        //}
+    //        //else
+    //        //{
+    //        //    Debug.Log("not enough supply available");
+    //        //}
+    //        Debug.Log(army.StatusString());
+    //        Debug.Log(army.QueueStatus());
+    //    }
+    //}
 
 
 }

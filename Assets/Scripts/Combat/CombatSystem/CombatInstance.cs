@@ -30,23 +30,16 @@ public class CombatInstance
 
     public void SetUpCombatInstance()
     {
-        UnitMap testMap = GameObject.Find("ArmyController").GetComponent<ArmyController>().GetUnitsForCombat();
-        //testMap.AddMultiple(UnitType.SWORDSMAN, 40);
-        //// testMap.Add(UnitType.SWORDSMAN);
-        //testMap.AddMultiple(UnitType.SWORDSMAN, 20);
-        //testMap.AddMultiple(UnitType.WIZARD, 20);
-        //testMap.AddMultiple(UnitType.ARCHER, 20);
+        // fetch units
+        UnitMap player1Units = GetArmyController(PlayerType.PLAYER).GetUnitsForCombat();
+        UnitMap player2Units = GetArmyController(PlayerType.AI).GetUnitsForCombat();
 
-
-        UnitMap testMap2 = new UnitMap();
-        testMap2.AddMultiple(UnitType.ARCHER, 10);
-        //testMap2.AddMultiple(UnitType.SWORDSMAN, 60);
-        testMap2.Add(UnitType.SWORDSMAN);
-        SetPlayer1Units(testMap);
-        SetPlayer2Units(testMap2);
+        // set units
+        SetPlayer1Units(player1Units);
+        SetPlayer2Units(player2Units);
     }
 
-    public void RunCombat()
+    public PlayerCombatResult RunCombat()
     {
         SetUpCombatInstance();
         PlayerCombatResult result = SimulatePlayerCombat();
@@ -58,6 +51,7 @@ public class CombatInstance
         Debug.Log("player2:");
         Debug.Log(player2Units.MapStatusString());
 
+        return result;
         // update views + unit counts + player hps
     }
 
@@ -144,5 +138,22 @@ public class CombatInstance
 
        // Debug.Log(string.Format("attacking unit ad {0} , defending unit hp {1}", attackingUnit.attackDamage, defendingUnit.health));
         return result;
+    }
+
+    public UnitMap GetDefeatedUnits(PlayerType playerType)
+    {
+        if (playerType == PlayerType.PLAYER)
+        {
+            return player1Units.GetUnitLosses();
+        }
+        else
+        {
+            return player2Units.GetUnitLosses();
+        }
+    }
+    // --- Utility Method for getting controller
+    public ArmyController GetArmyController(PlayerType playerType)
+    {
+        return GameObject.Find("GameController").GetComponent<GameController>().GetPlayerModel(playerType).armyController;
     }
 }

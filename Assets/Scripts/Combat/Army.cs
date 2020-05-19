@@ -4,20 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// CHECK PREREQS FOR BUILDING UNITS
 public class Army
 {
+    private PlayerType playerType;
     public UnitMap unitMap { get; private set; }
     private UnitTrainingQueue queue;
 
-    private int currentSupply;
-    private int maxSupply;
+    public int currentSupply { get; private set; }
+    public int maxSupply { get; private set; }
 
 
 
-    public Army()
+    public Army(PlayerType playerType)
     {
-        queue = new UnitTrainingQueue();
+        this.playerType = playerType;
+        queue = new UnitTrainingQueue(playerType);
         unitMap = new UnitMap();
         currentSupply = 0;
         maxSupply = 20;
@@ -70,6 +71,11 @@ public class Army
         {
             currentSupply -= num;
         }
+    }
+
+    public void IncreaseSupply(int number)
+    {
+        maxSupply += number;
     }
 
     public int GetNumber(UnitType type)

@@ -8,21 +8,16 @@ public class BuyUnitCommand : GameBehaviourCommand
     private UnitType unitType;
     private UnitPurchaseModel model;
 
-    public BuyUnitCommand(UnitType unitType)
+    public BuyUnitCommand(UnitType unitType, PlayerType playerType)
     {
+        this.playerType = playerType;
+
         this.unitType = unitType;
         model = null;
         Debug.Log("buy unit command created");
     }
 
-    public override bool OnCreate()
-    {
-        return true;
-
-        // nothing special for AddWorkerCommand
-    }
-
-    public override void Execute()
+    public override bool Execute()
     {
         Debug.Log("buy unit command executing");
         ArmyController armyController = GetArmyController();
@@ -30,13 +25,24 @@ public class BuyUnitCommand : GameBehaviourCommand
 
         model = UnitPurchaseModelFactory.Create(unitType);
 
+
+        // Check if prerequisite building has been built
+        bool prerequisiteBuilt = GetBuildPlotController().IsComplete(model.prerequisite);
+
+
+        if (!prerequisiteBuilt)
+        {
+            // abort
+            Debug.LogError(string.Format("Can't construct {0}, as its prerequisite building {1} hasn't been constructed.", unitType, model.prerequisite));
+            return false;
+        }
+
         bool supplyAvailable = armyController.CheckSupply(model);
-        
         if (!supplyAvailable)
         {
             // abort
             Debug.LogError("no supply available");
-            return;
+            return false;
         }
 
         // transaction succeeds
@@ -44,12 +50,12 @@ public class BuyUnitCommand : GameBehaviourCommand
         {
             armyController.AddUnitToBuildQueue(model);
         }
+        else
+        {
+            return false;
+        }
 
-        // Get ArmyController.CheckSupply()
-        // Try Transaction
-        // If works
-        // Get ArmyController.ReserveSupply()
-        // -> add unit to construction queue for x ticks
+        return true;
     }
 
 

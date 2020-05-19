@@ -4,8 +4,8 @@ using UnityEngine;
 
 public static class ArmyCommandFactory
 {
-    public static GameBehaviourCommand CreateBuyUnitCommand(UnitType type)
+    public static GameBehaviourCommand CreateBuyUnitCommand(UnitType unitType, PlayerType playerType)
     {
-        return new BuyUnitCommand(type);
+        return new BuyUnitCommand(unitType, playerType);
     }
 }

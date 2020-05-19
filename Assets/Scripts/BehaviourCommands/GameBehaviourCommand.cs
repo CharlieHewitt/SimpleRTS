@@ -4,39 +4,48 @@ using UnityEngine;
 
 public abstract class GameBehaviourCommand
 {
+    // invoker
+    protected PlayerType playerType;
+
     // do we need to store this? -> could be useful for Factory but prob not here
     protected GameBehaviourCommandType commandType;
 
-    // Player or AI controllers/command
-    // private Player invoker?
-
-    
-    // Code that needs to be run when added to queue
-    public abstract bool OnCreate();
-
     // Code that needs to be executed -> Can subscribe to time tick system if needed!
-    public abstract void Execute();
+    public abstract bool Execute();
 
+
+    //  Utility method for making transactions (avoiding code duplication)
     protected bool PayOutTransaction(ResourceTransaction transaction)
     {
-        ResourceController resourceController = GameObject.Find("Resource System").GetComponent<ResourceController>();
+        ResourceController resourceController = GetResourceController();
         return resourceController.PayOutTransaction(transaction);
     }
 
-    // Add utility methods for "getting controllers"
+
+    // ----------- Utility methods for accessing controllers (cleaner code in commands)
+
+    protected GameController GetGameController()
+    {
+        return GameObject.Find("GameController").GetComponent<GameController>();
+    }
 
     protected ResourceController GetResourceController()
     {
-        return GameObject.Find("Resource System").GetComponent<ResourceController>();
-    }
-
-    protected BuildPlotController GetBuildPlotController()
-    {
-        return GameObject.Find("GameBehaviourController").GetComponent<GameBehaviourCommandController>().buildPlotController;
+        return GetGameController().GetPlayerModel(playerType).resourceController;
     }
 
     protected ArmyController GetArmyController()
     {
-        return GameObject.Find("ArmyController").GetComponent<ArmyController>();
+        return GetGameController().GetPlayerModel(playerType).armyController;
+    }
+
+    protected BuildPlotController GetBuildPlotController()
+    {
+        return GetGameController().GetPlayerModel(playerType).buildPlotController;
+    }
+
+    protected ResourceGatheringController GetResourceGatheringController()
+    {
+        return GetResourceController().gatheringController;
     }
 }

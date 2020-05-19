@@ -8,12 +8,14 @@ public class ActiveUnits
 {
 
     private HashSet<UnitType> activeUnitTypes;
+    private UnitMap startingUnits;
     private UnitMap activeUnitNumbers;
 
     public ActiveUnits(UnitMap units)
     {
         activeUnitTypes = new HashSet<UnitType>();
         activeUnitNumbers = new UnitMap(units);
+        startingUnits = new UnitMap(units);
         InitialiseActiveUnitTypes();
     }
 
@@ -74,5 +76,11 @@ public class ActiveUnits
     public string MapStatusString()
     {
         return activeUnitNumbers.StatusString();
+    }
+
+    // Returns defeated unit counts
+    public UnitMap GetUnitLosses()
+    {
+        return activeUnitNumbers.UnitsRequiredToBecome(startingUnits);
     }
 }

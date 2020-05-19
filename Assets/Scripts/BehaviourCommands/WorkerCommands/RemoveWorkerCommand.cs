@@ -6,22 +6,15 @@ public class RemoveWorkerCommand : GameBehaviourCommand
 {
     private ResourceType resourceType;
 
-    public RemoveWorkerCommand(ResourceType resourceType)
+    public RemoveWorkerCommand(ResourceType resourceType, PlayerType playerType)
     {
+        this.playerType = playerType;
         this.resourceType = resourceType;
     }
 
-    public override bool OnCreate()
-    {
-        return true;
-
-        // nothing special for AddWorkerCommand
-    }
-
-    public override void Execute()
+    public override bool Execute()
     {
         // remove worker
-        GetResourceController().gatheringController.RemoveWorker(resourceType);
-
+        return GetResourceController().gatheringController.RemoveWorker(resourceType);
     }
 }

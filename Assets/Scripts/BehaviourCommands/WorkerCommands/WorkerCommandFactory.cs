@@ -4,14 +4,14 @@ using UnityEngine;
 
 public static class WorkerCommandFactory
 {
-    public static GameBehaviourCommand CreateAddWorkerCommand(ResourceType resourceType)
+    public static GameBehaviourCommand CreateAddWorkerCommand(ResourceType resourceType, PlayerType playerType)
     {
-        return new AddWorkerCommand(resourceType);
+        return new AddWorkerCommand(resourceType, playerType);
     }
 
-    public static GameBehaviourCommand CreateRemoveWorkerCommand(ResourceType resourceType)
+    public static GameBehaviourCommand CreateRemoveWorkerCommand(ResourceType resourceType, PlayerType playerType)
     {
-        return new RemoveWorkerCommand(resourceType);
+        return new RemoveWorkerCommand(resourceType, playerType);
     }
 
 }

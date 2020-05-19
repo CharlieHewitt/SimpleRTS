@@ -40,6 +40,34 @@ public class BuildPlotMap
         return buildPlots[location].buildingType;
     }
 
+    // Does a building of type occupy a plot
+    public bool IsBuilt(BuildingType type)
+    {
+        foreach (KeyValuePair<BuildPlotLocation, BuildPlot> entry in buildPlots)
+        {
+            if (entry.Value.buildingType == type)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // "IsBuilt" but also "has finished building"
+    public bool IsComplete(BuildingType type)
+    {
+        foreach (KeyValuePair<BuildPlotLocation, BuildPlot> entry in buildPlots)
+        {
+            if (entry.Value.buildingType == type && entry.Value.isUnderConstruction == false)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     public bool IsUnderConstruction(BuildPlotLocation location)
     {

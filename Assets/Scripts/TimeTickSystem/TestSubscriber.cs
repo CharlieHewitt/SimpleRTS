@@ -16,7 +16,7 @@ public class TestSubscriber : MonoBehaviour
         // move this to main game handler! for when game starts ig
         TimeTickSystem.Create();
         clock = new GameLengthClock();
-        combatClock = new CountdownClock(1, 1);
+        //combatClock = new CountdownClock(1, 1);
 
 
         // event handlers for logging ticks

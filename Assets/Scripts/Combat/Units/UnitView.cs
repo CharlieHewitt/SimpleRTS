@@ -28,8 +28,8 @@ public class UnitView : MonoBehaviour
     private void SetPurchaseInfo()
     {
         UnitPurchaseModel model = UnitPurchaseModelFactory.Create(type);
-        string wood = model.buildCost.GetResourceCost(ResourceType.WOOD);
-        string magicStone = model.buildCost.GetResourceCost(ResourceType.MAGIC_STONE);
+        string wood = model.buildCost.TransactionStatusString(ResourceType.WOOD);
+        string magicStone = model.buildCost.TransactionStatusString(ResourceType.MAGIC_STONE);
         string buildTime = (model.trainingTime / 5).ToString() + "s";
 
         purchaseInfo.text = string.Format("Supply: {0}\nWood: {1}\nMagic Stone: {2}\nBuild Time: {3}", model.armySize, wood, magicStone, buildTime);
@@ -48,8 +48,14 @@ public class UnitView : MonoBehaviour
     public void QueueTrainUnitCommand()
     {
         Debug.Log("clicky");
-        GameBehaviourCommand command = ArmyCommandFactory.CreateBuyUnitCommand(type);
+        GameBehaviourCommand command = ArmyCommandFactory.CreateBuyUnitCommand(type, PlayerType.PLAYER);
 
-        GameObject.Find("GameBehaviourController").GetComponent<GameBehaviourCommandController>().QueueUpCommand(command);
+        QueueUpCommand(command);
+    }
+
+    private void QueueUpCommand(GameBehaviourCommand command)
+    {
+        GameBehaviourCommandController controller = GameObject.Find("GameController").GetComponent<GameController>().GetPlayerModel(PlayerType.PLAYER).gameBehaviourCommandController;
+        controller.QueueUpCommand(command);
     }
 }

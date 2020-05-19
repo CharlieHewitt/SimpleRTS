@@ -7,7 +7,7 @@ using UnityEngine;
 // This is a wrapper controlling access to a map of <BuildPlotLocation, BuildPlot>
 public class UnitMap
 {
-    private Dictionary<UnitType, int> units;
+    public Dictionary<UnitType, int> units { get; private set; }
 
     public UnitMap()
     {
@@ -64,6 +64,20 @@ public class UnitMap
     public int GetNumber(UnitType unitType)
     {
         return units[unitType];
+    }
+
+    // Returns a unit map containing the units required to be equal to the other map (assuming the other map can be reached from the current state)
+    public UnitMap UnitsRequiredToBecome(UnitMap otherMap)
+    {
+        UnitMap comparisonResult = new UnitMap();
+
+        foreach (UnitType type in units.Keys)
+        {
+            int numUnits = otherMap.GetNumber(type) - GetNumber(type);
+            comparisonResult.AddMultiple(type, numUnits);
+        }
+
+        return comparisonResult;
     }
 }
 

@@ -15,19 +15,20 @@ public class ResourceManagementView : MonoBehaviour
 
     public void AddWorker()
     {
-      GameBehaviourCommand command = WorkerCommandFactory.CreateAddWorkerCommand(resourceType);
+      GameBehaviourCommand command = WorkerCommandFactory.CreateAddWorkerCommand(resourceType, PlayerType.PLAYER);
       QueueUpCommand(command);
     }
 
     public void RemoveWorker()
     {
-        GameBehaviourCommand command = WorkerCommandFactory.CreateRemoveWorkerCommand(resourceType);
+        GameBehaviourCommand command = WorkerCommandFactory.CreateRemoveWorkerCommand(resourceType, PlayerType.PLAYER);
         QueueUpCommand(command);
     }
 
     private void QueueUpCommand(GameBehaviourCommand command)
     {
-        GameObject.Find("GameBehaviourController").GetComponent<GameBehaviourCommandController>().QueueUpCommand(command);
+        GameBehaviourCommandController controller = GameObject.Find("GameController").GetComponent<GameController>().GetPlayerModel(PlayerType.PLAYER).gameBehaviourCommandController;
+        controller.QueueUpCommand(command);
     }
 
 

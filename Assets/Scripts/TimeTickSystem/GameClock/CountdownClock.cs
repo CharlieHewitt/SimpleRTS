@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CountdownClock : GameClock
+public abstract class CountdownClock : GameClock
 {
     public CountdownClock(int mins, int secs)
     {
@@ -34,9 +34,6 @@ public class CountdownClock : GameClock
         return seconds == 0 && minutes == 0;
     }
 
-    private void OnTimerFinish()
-    {
-        Debug.Log("combat time");
-    }
+    protected abstract void OnTimerFinish();
 }
 

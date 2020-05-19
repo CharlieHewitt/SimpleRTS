@@ -35,7 +35,7 @@ public class ResourceTransaction
 
     // --- For views
 
-    public string GetResourceCost(ResourceType type)
+    public string TransactionStatusString(ResourceType type)
     {
         foreach(ResourceCost cost in resourceCosts)
         {
@@ -46,5 +46,17 @@ public class ResourceTransaction
         }
 
         return "0";
+    }
+
+    public int GetResourceAmount(ResourceType type)
+    {
+        foreach (ResourceCost cost in resourceCosts)
+        {
+            if (cost.type == type)
+            {
+                return cost.amount;
+            }
+        }
+        return 0;
     }
 }

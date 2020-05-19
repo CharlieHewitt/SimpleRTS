@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class BuildPlotController
 {
-    private BuildPlotMap buildPlotMap;
+    private PlayerType playerType;
+    public BuildPlotMap buildPlotMap { get; private set; }
 
     // views
     private Dictionary<BuildPlotLocation, BuildPlotView> buildPlotViews;
 
-    public BuildPlotController()
+    public BuildPlotController(PlayerType playerType)
     {
+        this.playerType = playerType;
         buildPlotMap = new BuildPlotMap();
         InitialiseBuildPlotViews();
     }
@@ -39,15 +41,30 @@ public class BuildPlotController
         UpdateBuildPlotView(location);
     }
 
+    public bool IsBuilt(BuildingType type)
+    {
+        return buildPlotMap.IsBuilt(type);
+    }
+
+    public bool IsComplete(BuildingType type)
+    {
+        return buildPlotMap.IsComplete(type);
+    }
+
     public void OutputPlotStatus()
     {
         Debug.Log(buildPlotMap.StatusString());
     }
 
-    // View related code
+    // --------------- View related code
 
-    public void InitialiseBuildPlotViews()
+    private void InitialiseBuildPlotViews()
     {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+
         buildPlotViews = new Dictionary<BuildPlotLocation, BuildPlotView>();
 
         buildPlotViews[BuildPlotLocation.NORTH_EAST] = GameObject.Find("BuildPlotPanel - NorthEast").GetComponent<BuildPlotView>();
@@ -61,8 +78,13 @@ public class BuildPlotController
         }
     }
 
-    public void UpdateBuildPlotView(BuildPlotLocation location)
+    private void UpdateBuildPlotView(BuildPlotLocation location)
     {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+
         bool isUnderConstruction = buildPlotMap.IsUnderConstruction(location);
         buildPlotViews[location].UpdateUnderConstruction(isUnderConstruction);
 

@@ -4,14 +4,14 @@ using UnityEngine;
 
 public static class BuildingCommandFactory
 {
-    public static GameBehaviourCommand CreateConstructBuildingCommand(BuildPlotLocation plotLocation, BuildingType buildingType)
+    public static GameBehaviourCommand CreateConstructBuildingCommand(BuildPlotLocation plotLocation, BuildingType buildingType, PlayerType playerType)
     {
-        return new ConstructBuildingCommand(plotLocation, buildingType);
+        return new ConstructBuildingCommand(plotLocation, buildingType, playerType);
     }
 
-    public static GameBehaviourCommand CreateDemolishCommand(BuildPlotLocation plotLocation) 
+    public static GameBehaviourCommand CreateDemolishCommand(BuildPlotLocation plotLocation, PlayerType playerType) 
     {
-        return new DemolishBuildingCommand(plotLocation);
+        return new DemolishBuildingCommand(plotLocation, playerType);
     }
 
 }

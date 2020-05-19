@@ -9,8 +9,9 @@ public class ConstructBuildingCommand : GameBehaviourCommand
     private BuildingType buildingType;
     private BuildingModel buildingModel;
 
-    public ConstructBuildingCommand(BuildPlotLocation buildPlotLocation, BuildingType buildingType)
+    public ConstructBuildingCommand(BuildPlotLocation buildPlotLocation, BuildingType buildingType, PlayerType playerType)
     {
+        this.playerType = playerType;
         this.buildPlotLocation = buildPlotLocation;
         this.buildingType = buildingType;
         buildingModel = null;
@@ -18,14 +19,7 @@ public class ConstructBuildingCommand : GameBehaviourCommand
         Debug.Log("build command created");
     }
 
-    public override bool OnCreate()
-    {
-        return true;
-
-        // nothing special for AddWorkerCommand
-    }
-
-    public override void Execute()
+    public override bool Execute()
     {
         Debug.Log("build command executing");
 
@@ -35,28 +29,37 @@ public class ConstructBuildingCommand : GameBehaviourCommand
         buildingModel = BuildingModelFactory.Create(buildingType);
         ResourceTransaction transaction = buildingModel.buildCost;
 
-        // Check if Building is possible
+        // Check if constructing the building is possible
+
+        // Building has already been constructed in another plot
+        if (buildPlotController.IsBuilt(buildingType))
+        {
+            Debug.LogError(string.Format("Error: there is already a {0} on another plot.", buildingType));
+
+            //abort
+            return false;
+        }
 
         // Plot isn't empty
         if (!buildPlotController.IsBuildable(buildPlotLocation))
         {
             Debug.LogError(string.Format("Error: there is already a building on {0}", buildPlotLocation));
+           
             // abort
-            return;
+            return false;
         }
+
         // transaction fails
         if (!PayOutTransaction(transaction))
         {
             // abort
-            return;
+            return false;
         }
 
         // Success -> Build
         buildPlotController.Build(buildPlotLocation, buildingType, buildingModel);
 
-        // -> update building
-        // find controller -> will eventually be smoother
-
+        return true;
     }
 
 

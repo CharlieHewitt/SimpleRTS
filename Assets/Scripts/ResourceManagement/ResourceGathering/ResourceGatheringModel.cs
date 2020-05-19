@@ -7,6 +7,7 @@ using UnityEngine;
 // TODO: seperate worker from resource generation logic?
 public class ResourceGatheringModel
 {
+    PlayerType playerType;
     public Dictionary<ResourceType, int> workerCounts { get; private set; }
 
     // Worker variables
@@ -17,8 +18,9 @@ public class ResourceGatheringModel
     public int resourceTicks { get; private set; }
     public int resourcesGeneratedPerWorker { get; private set; }
 
-    public ResourceGatheringModel()
+    public ResourceGatheringModel(PlayerType playerType)
     {
+        this.playerType = playerType;
         // initialise variables
         idleWorkers = 0;
         maxWorkers = 10;
@@ -53,7 +55,7 @@ public class ResourceGatheringModel
 
     public void SendResourcesToStore(ResourceTransaction transaction)
     {
-        ResourceController resourceController = GameObject.Find("Resource System").GetComponent<ResourceController>();
+        ResourceController resourceController = GameObject.Find("GameController").GetComponent<GameController>().GetPlayerModel(playerType).resourceController;
         resourceController.PayInTransaction(transaction);
     }
 
@@ -84,29 +86,33 @@ public class ResourceGatheringModel
         TimeTickSystem.OnTick -= OnTick;
     }
 
-    public void AddWorker(ResourceType type)
+    public bool AddWorker(ResourceType type)
     {
         // do validation
         if (idleWorkers <= 0)
         {
             Debug.LogError("Error reassigning worker. (No idle workers available)");
-            return;
+            return false;
         }
 
         idleWorkers--;
         workerCounts[type]++;
+
+        return true;
     }
 
-    public void RemoveWorker(ResourceType type)
+    public bool RemoveWorker(ResourceType type)
     {
         if (workerCounts[type] <= 0)
         {
             Debug.LogError(string.Format("Error reassigning worker. (No workers are currently on {0}", type));
-            return;
+            return false;
         }
 
         workerCounts[type]--;
         idleWorkers++;
+
+        return true;
     }
 
     public ResourceTransaction GeneratePayOutTransaction()

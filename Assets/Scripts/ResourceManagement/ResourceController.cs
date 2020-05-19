@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ResourceController : MonoBehaviour
+public class ResourceController
 {
+    private PlayerType playerType;
+
     public ResourceGatheringController gatheringController { get; private set; }
 
     private ResourceStoreMap resourceStoreMap;
@@ -14,36 +16,17 @@ public class ResourceController : MonoBehaviour
     private Dictionary<ResourceType, ResourceStoreView> resourceStoreViews;
 
     // Start is called before the first frame update
-    private void Start()
+    public ResourceController(PlayerType playerType)
     {
-        gatheringController = new ResourceGatheringController();
+        this.   playerType = playerType;
+        gatheringController = new ResourceGatheringController(playerType);
         resourceStoreMap = new ResourceStoreMap();
+
+
         InitialiseResourceStoreViews();
         UpdateResourceStoreViews();
     }
 
-    // Update is called once per frame
-    private void Update()
-    {
-        // tests for workers -> write automated ones!
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            gatheringController.AddWorker(ResourceType.WOOD);
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            gatheringController.RemoveWorker(ResourceType.WOOD);
-
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            gatheringController.AddWorker(ResourceType.MAGIC_STONE);
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            gatheringController.RemoveWorker(ResourceType.MAGIC_STONE);
-        }
-    }
 
 
     /** 
@@ -75,18 +58,25 @@ public class ResourceController : MonoBehaviour
         }
 
         return success;
+    }
 
-
-
-        // Update view
+    public bool IsTransactionPossible(ResourceTransaction transaction)
+    {
+        return resourceStoreMap.IsTransactionPossible(transaction);
     }
 
 
 
-    // View related code
+    // -------- View related code -------------------
+    // should only be called when PlayerType = PLAYER
 
     private void InitialiseResourceStoreViews()
     {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+
         resourceStoreViews = new Dictionary<ResourceType, ResourceStoreView>();
 
         resourceStoreViews[ResourceType.WOOD] = GameObject.Find("Wood ResourceStoreView").GetComponent<ResourceStoreView>();
@@ -95,9 +85,39 @@ public class ResourceController : MonoBehaviour
 
     private void UpdateResourceStoreViews()
     {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+
         resourceStoreViews[ResourceType.WOOD].UpdateStoredResources(resourceStoreMap.GetStoredResources(ResourceType.WOOD));
         resourceStoreViews[ResourceType.MAGIC_STONE].UpdateStoredResources(resourceStoreMap.GetStoredResources(ResourceType.MAGIC_STONE));
     }
 
 }
 
+// --------- Legacy code
+
+
+// Update is called once per frame
+//private void Update()
+//{
+//    // tests for workers -> write automated ones!
+//    if (Input.GetKeyDown(KeyCode.Q))
+//    {
+//        gatheringController.AddWorker(ResourceType.WOOD);
+//    }
+//    else if (Input.GetKeyDown(KeyCode.W))
+//    {
+//        gatheringController.RemoveWorker(ResourceType.WOOD);
+
+//    }
+//    else if (Input.GetKeyDown(KeyCode.A))
+//    {
+//        gatheringController.AddWorker(ResourceType.MAGIC_STONE);
+//    }
+//    else if (Input.GetKeyDown(KeyCode.S))
+//    {
+//        gatheringController.RemoveWorker(ResourceType.MAGIC_STONE);
+//    }
+//}

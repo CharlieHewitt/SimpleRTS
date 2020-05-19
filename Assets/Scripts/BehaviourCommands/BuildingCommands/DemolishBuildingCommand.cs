@@ -7,22 +7,16 @@ public class DemolishBuildingCommand : GameBehaviourCommand
 {
     private BuildPlotLocation buildPlotLocation;
 
-    public DemolishBuildingCommand(BuildPlotLocation buildPlotLocation)
+    public DemolishBuildingCommand(BuildPlotLocation buildPlotLocation, PlayerType playerType)
     {
+        this.playerType = playerType;
         this.buildPlotLocation = buildPlotLocation;
 
 
         Debug.Log("demolish command created");
     }
 
-    public override bool OnCreate()
-    {
-        return true;
-
-        // nothing special for AddWorkerCommand
-    }
-
-    public override void Execute()
+    public override bool Execute()
     {
         BuildPlotController buildPlotController = GetBuildPlotController();
 
@@ -33,7 +27,10 @@ public class DemolishBuildingCommand : GameBehaviourCommand
         else
         {
             Debug.LogError(string.Format("Can't demolish. There is no building at {0}", buildPlotLocation));
+            return false;
         }
+
+        return true;
     }
 
 }

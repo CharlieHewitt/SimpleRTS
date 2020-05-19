@@ -6,20 +6,17 @@ public class AddWorkerCommand : GameBehaviourCommand
 {
     private ResourceType resourceType;
 
-    public AddWorkerCommand(ResourceType resourceType)
+    public AddWorkerCommand(ResourceType resourceType, PlayerType playerType)
     {
+        this.playerType = playerType;
         this.resourceType = resourceType;
     }
 
-    public override bool OnCreate()
-    {
-        return true;
-        // nothing special for AddWorkerCommand
-    }
-
-    public override void Execute()
+    public override bool Execute()
     {
         // add worker
-        GetResourceController().gatheringController.AddWorker(resourceType);
+        return GetResourceController().gatheringController.AddWorker(resourceType);
+
+        // Questionable
     }
 }

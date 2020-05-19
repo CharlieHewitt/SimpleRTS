@@ -20,16 +20,9 @@ public class GameBehaviourCommandQueue
         }
     }
 
-    public bool QueueUpCommand(GameBehaviourCommand command)
+    public void QueueUpCommand(GameBehaviourCommand command)
     {
-        bool success = command.OnCreate();
-
-        if (success)
-        {
-            commandQueue.Enqueue(command);
-        };
-
-        return success;
+        commandQueue.Enqueue(command);
     }
 
     // try execute a command every game tick?

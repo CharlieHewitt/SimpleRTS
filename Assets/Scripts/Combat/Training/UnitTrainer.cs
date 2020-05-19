@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitTrainer : MonoBehaviour
+public class UnitTrainer
 {
+    PlayerType playerType;
     private int currentTick;
     private int requiredTicks;
     private UnitPurchaseModel model;
@@ -11,8 +12,9 @@ public class UnitTrainer : MonoBehaviour
     // Used by Training Queue to see if the next unit can be sent to the trainer
     public bool isTraining { get; private set; }
 
-    public UnitTrainer()
+    public UnitTrainer(PlayerType playerType)
     {
+        this.playerType = playerType;
         isTraining = false;
         currentTick = 0;
         requiredTicks = 0;
@@ -41,7 +43,9 @@ public class UnitTrainer : MonoBehaviour
         {
             Unsubscribe();
             Debug.Log("training complete");
-            GameObject.Find("ArmyController").GetComponent<ArmyController>().AddCompleteUnit(model);
+
+            ArmyController armyController = GameObject.Find("GameController").GetComponent<GameController>().GetPlayerModel(playerType).armyController;
+            armyController.AddCompleteUnit(model);
             isTraining = false;
             // unit complete -> notify ArmyController to add unit to army
             // fetch next from queue if possible

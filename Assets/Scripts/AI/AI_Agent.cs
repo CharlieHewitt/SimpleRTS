@@ -2,47 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI_Agent : MonoBehaviour
+public class AI_Agent
 {
     // Randomly Initialise these
     private UnitPriorities unitPriorities;
-    private CombatRoundPlanner planner;
-    private bool initialised;
     private Queue<AI_GameBehaviourCommand> commandQueue;
 
     private bool waiting;
     private int waitedTicks;
     private int waitingForTicks;
 
-    private void Awake()
+    public AI_Agent()
     {
-        initialised = false;
         waiting = false;
         waitedTicks = 0;
         waitingForTicks = 0;
         commandQueue = new Queue<AI_GameBehaviourCommand>();
-
+        
+        
+        RandomlyInitialiseUnitPriorities();
         TimeTickSystem.OnTick += TryQueueNext_OnTick;
     }
 
-    private void Update()
+    public void PlanRound()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            if (!initialised)
-            {
-                unitPriorities = new UnitPriorities(1, 1, 1);
-                planner = new CombatRoundPlanner(unitPriorities);
-                initialised = true;
-            }
-
-           commandQueue = planner.PlanCombatRound();
-
-           foreach (AI_GameBehaviourCommand aiCommand in commandQueue)
-            {
-                Debug.Log("Q: " + aiCommand.command.GetType());
-            }
-        }
+        CombatRoundPlanner planner = new CombatRoundPlanner(unitPriorities);
+        commandQueue =  planner.PlanCombatRound();
     }
 
     public void TryQueueNext()
@@ -77,6 +62,36 @@ public class AI_Agent : MonoBehaviour
         }
     }
     
+    public void RandomlyInitialiseUnitPriorities()
+    {
+        float x = 0f;
+        float y = 0f;
+        float z = 0f;
+
+        while (x + y + z != 3f)
+        {
+            x = Random.Range(0f, 1f);
+            y = Random.Range(0f, 1f);
+            z = Random.Range(0f, 1f);
+
+            float sum = x + y + z;
+
+            float toBeFilled = (3f - sum);
+
+            x += toBeFilled / 3f;
+            y += toBeFilled / 3f;
+            z += toBeFilled / 3f;
+        }
+
+        Debug.Log(string.Format("{0} {1} {2}", x, y, z));
+
+        if (x + y + z != 3f)
+        {
+            Debug.LogError("x+y+z != 3 but = " + (float)(x + y + z));
+        }
+
+        unitPriorities = new UnitPriorities(x, y, z);
+    }
     public void TryQueueNext_OnTick(object sender, TimeTickSystem.OnTickEventArgs e)
     {
         TryQueueNext();

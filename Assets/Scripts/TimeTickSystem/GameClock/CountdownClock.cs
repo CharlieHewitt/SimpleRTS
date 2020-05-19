@@ -24,6 +24,7 @@ public abstract class CountdownClock : GameClock
                 OnTimerFinish();
             }
             // Update view
+            UpdateTimerView();
 
              Debug.Log(string.Format("{0}:{1}", minutes, seconds));
         }

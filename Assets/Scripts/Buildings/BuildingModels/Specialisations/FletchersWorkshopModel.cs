@@ -8,7 +8,7 @@ public class FletchersWorkshopModel : BuildingModel
     public FletchersWorkshopModel()
     {
         type = BuildingType.FLETCHERS_WORKSHOP;
-        constructionTime = 45;
+        constructionTime = 100;
         buildCost = InitialiseCost();
     }
 
@@ -16,8 +16,8 @@ public class FletchersWorkshopModel : BuildingModel
     {
         ResourceTransaction transaction = ResourceTransactionFactory.Create();
 
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 750));
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 0));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 2500));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 500));
 
         return transaction;
     }

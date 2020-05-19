@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BuildPlot
 {
+    PlayerType playerType;
     public BuildingType buildingType { get; private set; }
     public BuildPlotLocation location { get; private set; }
 
@@ -15,8 +16,9 @@ public class BuildPlot
     private int constructedTicks;
     private int constructionTime;
 
-    public BuildPlot(BuildPlotLocation location)
+    public BuildPlot(BuildPlotLocation location, PlayerType playerType)
     {
+        this.playerType = playerType;
         buildingType = BuildingType.NONE;
         this.location = location;
         isUnderConstruction = false;
@@ -42,6 +44,8 @@ public class BuildPlot
         isUnderConstruction = true;
 
         BuildForTicks(buildingModel.constructionTime);
+        GetGameLog().Log(string.Format("Started building {0} on {1}", buildingType, location));
+
     }
 
     public void Demolish()
@@ -53,6 +57,10 @@ public class BuildPlot
 
         // update state
         buildingType = BuildingType.NONE;
+
+        // log 
+        GetGameLog().Log(string.Format("Demolished building on {0}", location));
+
     }
 
     public string StatusString()
@@ -80,10 +88,15 @@ public class BuildPlot
         {
             isUnderConstruction = false;
             Unsubscribe();
-            Debug.Log("command succesfully executed.");
 
-           // update view on building completion!!
-           // GameObject.Find("BuildPlotController").GetComponent<BuildPlotController>().UpdateBuildPlotView(location);
+            // log
+            Debug.Log("command succesfully executed.");
+            GetGameLog().Log(string.Format("Building contruction complete ({0})", buildingType));
+
+            // update view on building completion!!
+            GetBuildPlotController().UpdateBuildPlotView(location);
+            // GameObject.Find("BuildPlotController").GetComponent<BuildPlotController>().UpdateBuildPlotView(location);
+
         }
     }
 
@@ -92,4 +105,21 @@ public class BuildPlot
         TimeTickSystem.OnTick -= OnTickEventHandler;
     }
 
+    // Utility -- Controller access
+
+    private GameController GetGameController()
+    {
+        return GameObject.Find("GameController").GetComponent<GameController>();
+
+    }
+
+    private BuildPlotController GetBuildPlotController()
+    {
+        return GetGameController().GetPlayerModel(playerType).buildPlotController;
+    }
+
+    private GameLogController GetGameLog()
+    {
+        return GetGameController().GetPlayerModel(playerType).gameLogController;
+    }
 }

@@ -14,10 +14,9 @@ public class TestSubscriber : MonoBehaviour
     void Start()
     {
         // move this to main game handler! for when game starts ig
-        TimeTickSystem.Create();
-        clock = new GameLengthClock();
         //combatClock = new CountdownClock(1, 1);
-
+        TimeTickSystem.Create();
+        //clock = new GameLengthClock();
 
         // event handlers for logging ticks
         if (outputTicksToConsole)

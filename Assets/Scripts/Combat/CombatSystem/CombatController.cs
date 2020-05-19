@@ -22,13 +22,15 @@ public class CombatController
         // run combat
         PlayerCombatResult result = SimulateCombat();
 
+        // remove dead units!
+        UpdateArmy(PlayerType.PLAYER);
+        UpdateArmy(PlayerType.AI);
+
         // handle results
         UpdatePlayerHealth(result);
 
-        // Do viewy stuff
 
-
-
+        // check if next round needs to be scheduled
         bool gameOver = IsGameOver();
 
         if (!gameOver)
@@ -37,9 +39,20 @@ public class CombatController
             IncreaseSupplyCap(10);
             IncreaseMaxWorkers(5);
 
+            // Update AI Unit Priorities based off the combat result! (once updated combat system is implemented - no point otherwise)
+
+
             // Start timer for next round
             ScheduleNextRound();
+
+            // Remind AI to plan for this round
         }
+    }
+
+    public void UpdateArmy(PlayerType playerType)
+    {
+        UnitMap casualties = combatInstance.GetDefeatedUnits(playerType);
+        GetArmyController(playerType).UpdateArmy(casualties);
     }
 
 
@@ -54,6 +67,9 @@ public class CombatController
     {
         roundNumber++;
         combatScheduler.ScheduleCombatRound(roundNumber);
+
+        // AI -> plan round
+        GetGameController().ai_agent.PlanRound();
     }
 
     // Decrease player who lost their health points.

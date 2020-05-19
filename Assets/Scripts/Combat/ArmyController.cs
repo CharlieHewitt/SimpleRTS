@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ArmyController
@@ -50,6 +52,23 @@ public class ArmyController
     {
         army.IncreaseSupply(number);
         UpdateSupplyView();
+    }
+
+    public void UpdateArmy(UnitMap casualties)
+    {
+        foreach(UnitType type in Enum.GetValues(typeof(UnitType)).Cast<UnitType>())
+        {
+            int numDeaths = casualties.GetNumber(type);
+
+            for (int i = 0; i < numDeaths; i++)
+            {
+                army.RemoveUnit(type);
+
+            }
+            //update views
+            UpdateSupplyView();
+            UpdateUnitView(type);
+        }
     }
 
     //--------------- View related code

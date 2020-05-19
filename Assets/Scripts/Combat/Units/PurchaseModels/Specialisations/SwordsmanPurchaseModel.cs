@@ -18,7 +18,7 @@ public class SwordsmanPurchaseModel : UnitPurchaseModel
     {
         ResourceTransaction transaction = ResourceTransactionFactory.Create();
 
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 75));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 100));
         transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 0));
 
         return transaction;

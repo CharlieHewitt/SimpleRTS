@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class GameLengthClock : GameClock
 {
+    public GameClockView clockView;
     public GameLengthClock()
     {
+        clockView = GameObject.Find("GameClockView").GetComponent<GameClockView>();
         TimeTickSystem.OnTick += OnTick;
+        
     }
 
     public override void OnTick(object sender, TimeTickSystem.OnTickEventArgs e)
@@ -15,9 +18,15 @@ public class GameLengthClock : GameClock
         {
             IncreaseBySecond();
             // Update view
+            UpdateTimerView();
 
             Debug.Log(string.Format("{0}:{1}", minutes, seconds));
         }
+    }
+
+    protected override void UpdateTimerView()
+    {
+        clockView.UpdateTime(minutes, seconds);
     }
 }
 

@@ -83,4 +83,9 @@ public class ActiveUnits
     {
         return activeUnitNumbers.UnitsRequiredToBecome(startingUnits);
     }
+
+    public UnitMap GetStartingUnits()
+    {
+        return startingUnits;
+    }
 }

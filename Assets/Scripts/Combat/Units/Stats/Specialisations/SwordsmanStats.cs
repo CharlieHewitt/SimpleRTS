@@ -10,6 +10,6 @@ public class SwordsmanStats : UnitStats
         unitType = UnitType.SWORDSMAN;
         attackDamage = 35;
         attackSpeed = 1;
-        health = 120;
+        health = 75;
     }
 }

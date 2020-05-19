@@ -50,6 +50,7 @@ public class Army
     public void RemoveUnit(UnitType unitType)
     {
         unitMap.Remove(unitType);
+        RemoveSupply(unitType);
     }
 
     public bool CheckSupply(UnitPurchaseModel model)
@@ -65,11 +66,13 @@ public class Army
     }
 
     // Maybe needed for post combat situations
-    public void RemoveSupply(int num)
+    public void RemoveSupply(UnitType type)
     {
-        if (currentSupply >= num)
+        int supplyToRemove = UnitPurchaseModelFactory.Create(type).armySize;
+
+        if (currentSupply >= supplyToRemove)
         {
-            currentSupply -= num;
+            currentSupply -= supplyToRemove;
         }
     }
 

@@ -52,5 +52,8 @@ public abstract class GameClock
             seconds--;
         }
     }
+
+    // optional
+    protected abstract void UpdateTimerView();
 }
 

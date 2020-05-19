@@ -7,10 +7,12 @@ using UnityEngine;
 // This is a wrapper controlling access to a map of <BuildPlotLocation, BuildPlot>
 public class BuildPlotMap
 {
-    private Dictionary<BuildPlotLocation, BuildPlot> buildPlots;
+    private PlayerType playerType;
+    public Dictionary<BuildPlotLocation, BuildPlot> buildPlots { get; private set; }
 
-    public BuildPlotMap()
+    public BuildPlotMap(PlayerType playerType)
     {
+        this.playerType = playerType;
         buildPlots = new Dictionary<BuildPlotLocation, BuildPlot>();
         SetToDefault();
     }
@@ -19,7 +21,7 @@ public class BuildPlotMap
     {
         foreach (BuildPlotLocation location in Enum.GetValues(typeof(BuildPlotLocation)).Cast<BuildPlotLocation>())
         {
-            buildPlots[location] = new BuildPlot(location);
+            buildPlots[location] = new BuildPlot(location, playerType);
         }
     }
 

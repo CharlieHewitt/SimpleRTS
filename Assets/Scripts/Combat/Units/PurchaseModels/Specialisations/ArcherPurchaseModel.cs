@@ -8,8 +8,8 @@ public class ArcherPurchaseModel : UnitPurchaseModel
     public ArcherPurchaseModel()
     {
         unitType = UnitType.ARCHER;
-        trainingTime = 40;
-        armySize = 1;
+        trainingTime = 35;
+        armySize = 2;
         buildCost = InitialiseCost();
         prerequisite = BuildingType.FLETCHERS_WORKSHOP;
     }
@@ -18,8 +18,8 @@ public class ArcherPurchaseModel : UnitPurchaseModel
     {
         ResourceTransaction transaction = ResourceTransactionFactory.Create();
 
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 100));
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 0));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 150));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 25));
 
         return transaction;
     }

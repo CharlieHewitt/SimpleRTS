@@ -8,7 +8,7 @@ public class MagicalWandShopModel : BuildingModel
     public MagicalWandShopModel()
     {
         type = BuildingType.MAGICAL_WAND_SHOP;
-        constructionTime = 60;
+        constructionTime = 150;
         buildCost = InitialiseCost();
     }
 
@@ -16,8 +16,8 @@ public class MagicalWandShopModel : BuildingModel
     {
         ResourceTransaction transaction = ResourceTransactionFactory.Create();
 
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 1500));
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 1000));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 1200));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 3000));
 
         return transaction;
     }

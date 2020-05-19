@@ -8,8 +8,8 @@ public class WizardPurchaseModel : UnitPurchaseModel
     public WizardPurchaseModel()
     {
         unitType = UnitType.WIZARD;
-        trainingTime = 60;
-        armySize = 2;
+        trainingTime = 50;
+        armySize = 3;
         prerequisite = BuildingType.MAGICAL_WAND_SHOP;
         buildCost = InitialiseCost();
     }
@@ -18,8 +18,8 @@ public class WizardPurchaseModel : UnitPurchaseModel
     {
         ResourceTransaction transaction = ResourceTransactionFactory.Create();
 
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 125));
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 50));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 100));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 125));
 
         return transaction;
     }

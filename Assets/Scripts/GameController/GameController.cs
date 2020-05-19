@@ -11,12 +11,23 @@ public class GameController : MonoBehaviour
     // Combat Controller
     public CombatController combatController { get; private set; }
 
+    // AI
+    public AI_Agent ai_agent { get; private set; }
+
+    // HealthViews
+    public HealthView playerHealthView;
+    public HealthView aiHealthView;
+    public GameLengthClock clock;
+
+
     private void Awake()
     {
+        clock = new GameLengthClock();
         playerModel = new PlayerModel(PlayerType.PLAYER);
         agentModel = new PlayerModel(PlayerType.AI);
-
+        ai_agent = new AI_Agent();
         combatController = new CombatController();
+        InitialiseHealthViews();
     }
 
     public PlayerModel GetPlayerModel(PlayerType playerType)
@@ -57,6 +68,19 @@ public class GameController : MonoBehaviour
         {
             // do defeat stuff
         }
+    }
+
+    private void InitialiseHealthViews()
+    {
+        playerHealthView = GameObject.Find("PlayerHealthView").GetComponent<HealthView>();
+        aiHealthView = GameObject.Find("AIHealthView").GetComponent<HealthView>();
+        UpdateHealthViews();
+    }
+
+    public void UpdateHealthViews()
+    {
+        playerHealthView.UpdateHealth(GetPlayerModel(PlayerType.PLAYER).healthPoints);
+        aiHealthView.UpdateHealth(GetPlayerModel(PlayerType.AI).healthPoints);
     }
 
 

@@ -23,6 +23,7 @@ public class TabGroup : MonoBehaviour
         }
 
         tabButtons.Add(button);
+        OnTabSelected(button);
     }
 
 

@@ -10,12 +10,17 @@ public class CombatInstance
     public UnitStats unit1 { get; private set; }
     public UnitStats unit2 { get; private set; }
 
+    // View -- (should really be in CombatController but yeah)
+    public CombatResultView combatResultView { get; private set; }
+
     public CombatInstance()
     {
         player1Units = null;
         player2Units = null;
         unit1 = null;
         unit2 = null;
+
+        InitialiseCombatResultView();
     }
 
     public void SetPlayer1Units(UnitMap armyUnitMap)
@@ -50,9 +55,14 @@ public class CombatInstance
         Debug.Log(player1Units.MapStatusString());
         Debug.Log("player2:");
         Debug.Log(player2Units.MapStatusString());
+        
+        // update views
+        UpdateCombatResultView(result);
+        
+        combatResultView.ShowWindow();
+
 
         return result;
-        // update views + unit counts + player hps
     }
 
     public UnitCombatResult SimulateUnitCombat()
@@ -151,6 +161,23 @@ public class CombatInstance
             return player2Units.GetUnitLosses();
         }
     }
+
+    // View related code
+    private void InitialiseCombatResultView()
+    {
+        combatResultView = GameObject.Find("CombatResultPanel").GetComponent<CombatResultView>();
+        combatResultView.HideWindow();
+    }
+
+
+    private void UpdateCombatResultView(PlayerCombatResult result)
+    {
+        combatResultView.UpdateCombatResultView(player1Units, player2Units);
+        combatResultView.UpdateOutcome(result);
+    }
+
+
+
     // --- Utility Method for getting controller
     public ArmyController GetArmyController(PlayerType playerType)
     {

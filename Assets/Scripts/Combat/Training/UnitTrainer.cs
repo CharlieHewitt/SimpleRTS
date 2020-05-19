@@ -29,6 +29,8 @@ public class UnitTrainer
         requiredTicks = model.trainingTime;
         currentTick = 0;
 
+        GetGameLog().Log(string.Format("Started training {0}", model.unitType.ToString().ToLower()));
+
         TimeTickSystem.OnTick += UnitTrainer_OnTick;
     }
 
@@ -43,6 +45,7 @@ public class UnitTrainer
         {
             Unsubscribe();
             Debug.Log("training complete");
+
 
             ArmyController armyController = GameObject.Find("GameController").GetComponent<GameController>().GetPlayerModel(playerType).armyController;
             armyController.AddCompleteUnit(model);
@@ -60,5 +63,10 @@ public class UnitTrainer
     public void Unsubscribe()
     {
         TimeTickSystem.OnTick -= UnitTrainer_OnTick;
+    }
+
+    private GameLogController GetGameLog()
+    {
+        return GameObject.Find("GameController").GetComponent<GameController>().GetPlayerModel(playerType).gameLogController;
     }
 }

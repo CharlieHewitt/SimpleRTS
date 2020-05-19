@@ -43,7 +43,7 @@ public abstract class UnitStats
     }
 
 
-    //// Strength/ Weakness grants a {20%} damage boost
+    //// Strength/ Weakness grants a {20%} damage boost -> next version
     //public List<UnitType> strongAgainst { get; protected set; }
 
     //public List<UnitType> weakAgainst { get; protected set; }

@@ -8,7 +8,7 @@ public class BlacksmithsModel : BuildingModel
     public BlacksmithsModel()
     {
         type = BuildingType.BLACKSMITHS;
-        constructionTime = 30;
+        constructionTime = 50;
         buildCost = InitialiseCost();
     }
 
@@ -16,8 +16,8 @@ public class BlacksmithsModel : BuildingModel
     {
         ResourceTransaction transaction = ResourceTransactionFactory.Create();
 
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 500));
-        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 100));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.WOOD, 1000));
+        transaction.AddResourceCost(ResourceCostFactory.Create(ResourceType.MAGIC_STONE, 0));
 
         return transaction;
     }

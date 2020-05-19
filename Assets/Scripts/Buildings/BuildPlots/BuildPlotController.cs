@@ -9,12 +9,14 @@ public class BuildPlotController
 
     // views
     private Dictionary<BuildPlotLocation, BuildPlotView> buildPlotViews;
+    private Dictionary<BuildingType, BuildingInfoView> buildingInfoViews;
 
     public BuildPlotController(PlayerType playerType)
     {
         this.playerType = playerType;
-        buildPlotMap = new BuildPlotMap();
+        buildPlotMap = new BuildPlotMap(playerType);
         InitialiseBuildPlotViews();
+        InitialiseBuildingInfoViews();
     }
 
     public bool IsBuildable(BuildPlotLocation location)
@@ -27,6 +29,7 @@ public class BuildPlotController
         buildPlotMap.Build(location, buildingType, buildingModel);
         OutputPlotStatus();
         UpdateBuildPlotView(location);
+        UpdateBuildingInfoView(buildingType);
     }
 
     public bool IsDemolishable(BuildPlotLocation location)
@@ -36,9 +39,16 @@ public class BuildPlotController
 
     public void Demolish(BuildPlotLocation location)
     {
+        // get type for view update
+        BuildingType buildingType = buildPlotMap.GetBuilding(location);
+
+        // demolish
         buildPlotMap.Demolish(location);
+
+        // update views
         OutputPlotStatus();
         UpdateBuildPlotView(location);
+        UpdateBuildingInfoView(buildingType);
     }
 
     public bool IsBuilt(BuildingType type)
@@ -78,7 +88,27 @@ public class BuildPlotController
         }
     }
 
-    private void UpdateBuildPlotView(BuildPlotLocation location)
+    private void InitialiseBuildingInfoViews()
+    {
+        if (playerType == PlayerType.AI)
+        {
+            return;
+        }
+
+        buildingInfoViews = new Dictionary<BuildingType, BuildingInfoView>();
+
+        buildingInfoViews[BuildingType.BLACKSMITHS] = GameObject.Find("BuildingPanel - Blacksmiths").GetComponent<BuildingInfoView>();
+        buildingInfoViews[BuildingType.FLETCHERS_WORKSHOP] = GameObject.Find("BuildingPanel - FletchersWorkshop").GetComponent<BuildingInfoView>();
+        buildingInfoViews[BuildingType.MAGICAL_WAND_SHOP] = GameObject.Find("BuildingPanel - MagicalWandShop").GetComponent<BuildingInfoView>();
+
+        foreach (BuildingType type in buildingInfoViews.Keys)
+        {
+            buildingInfoViews[type].UpdateConstructionCost(type);
+        }
+    }
+
+
+    public void UpdateBuildPlotView(BuildPlotLocation location)
     {
         if (playerType == PlayerType.AI)
         {
@@ -88,31 +118,20 @@ public class BuildPlotController
         bool isUnderConstruction = buildPlotMap.IsUnderConstruction(location);
         buildPlotViews[location].UpdateUnderConstruction(isUnderConstruction);
 
-        string building = GetBuildingOnPlotAsString(location);
+        BuildingType building = buildPlotMap.GetBuilding(location);
         buildPlotViews[location].UpdateCurrentBuilding(building);
     }
 
-    public string GetBuildingOnPlotAsString(BuildPlotLocation location)
+    private void UpdateBuildingInfoView(BuildingType type)
     {
-        BuildingType type = buildPlotMap.GetBuilding(location);
-        switch(type)
+        if (playerType == PlayerType.AI)
         {
-            case BuildingType.NONE:
-                return "Empty";
-
-            case BuildingType.BLACKSMITHS:
-                return "Blacksmiths";
-
-            case BuildingType.FLETCHERS_WORKSHOP:
-                return "Fletcher's workshop";
-
-            case BuildingType.MAGICAL_WAND_SHOP:
-                return "Magical wand shop";
-
-            default:
-                Debug.LogError("BuildingType not implemented");
-                return "error";
+            return;
         }
+
+        bool isBuilt = IsBuilt(type);
+        buildingInfoViews[type].UpdateIsBuilt(isBuilt);
     }
+
 
 }

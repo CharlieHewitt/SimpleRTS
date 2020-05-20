@@ -7,8 +7,8 @@ public abstract class GameBehaviourCommand
     // invoker
     protected PlayerType playerType;
 
-    // do we need to store this? -> could be useful for Factory but prob not here
-    protected GameBehaviourCommandType commandType;
+    //// do we need to store this? -> could be useful for Factory but prob not here
+    //protected GameBehaviourCommandType commandType;
 
     // Code that needs to be executed -> Can subscribe to time tick system if needed!
     public abstract bool Execute();
@@ -48,4 +48,10 @@ public abstract class GameBehaviourCommand
     {
         return GetResourceController().gatheringController;
     }
+
+    protected GameLogController GetGameLogController()
+    {
+        return GetGameController().GetPlayerModel(playerType).gameLogController;
+    }
+
 }

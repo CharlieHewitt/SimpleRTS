@@ -26,7 +26,7 @@ public class UserInputCommandMap
     public void SetToDefault()
     {
         // TODO once commands are implemented!
-        AddInputCommand(KeyCode.Q, null);
+        //AddInputCommand(KeyCode.Q, null);
         
         // eventually read these from json so these could be stored locally in different "setups"
     }

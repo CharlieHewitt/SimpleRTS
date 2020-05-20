@@ -34,6 +34,7 @@ public class BuyUnitCommand : GameBehaviourCommand
         {
             // abort
             Debug.LogError(string.Format("Can't construct {0}, as its prerequisite building {1} hasn't been constructed.", unitType, model.prerequisite));
+            GetGameLogController().Log(string.Format("Error: Can't construct {0}, as its prerequisite building {1} hasn't been constructed.", unitType, model.prerequisite));
             return false;
         }
 
@@ -42,6 +43,8 @@ public class BuyUnitCommand : GameBehaviourCommand
         {
             // abort
             Debug.LogError("no supply available");
+            GetGameLogController().Log("Error: Not enough supply to construct" + unitType);
+
             return false;
         }
 
@@ -52,6 +55,7 @@ public class BuyUnitCommand : GameBehaviourCommand
         }
         else
         {
+            GetGameLogController().Log("Error: Not enough resources to construct" + unitType);
             return false;
         }
 

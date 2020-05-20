@@ -35,6 +35,8 @@ public class ConstructBuildingCommand : GameBehaviourCommand
         if (buildPlotController.IsBuilt(buildingType))
         {
             Debug.LogError(string.Format("Error: there is already a {0} on another plot.", buildingType));
+            GetGameLogController().Log(string.Format("Error: there is already a {0} on another plot.", buildingType));
+
 
             //abort
             return false;
@@ -44,7 +46,9 @@ public class ConstructBuildingCommand : GameBehaviourCommand
         if (!buildPlotController.IsBuildable(buildPlotLocation))
         {
             Debug.LogError(string.Format("Error: there is already a building on {0}", buildPlotLocation));
-           
+            GetGameLogController().Log(string.Format("Error: there is already a building on {0}", buildPlotLocation));
+
+
             // abort
             return false;
         }
@@ -53,6 +57,7 @@ public class ConstructBuildingCommand : GameBehaviourCommand
         if (!PayOutTransaction(transaction))
         {
             // abort
+            GetGameLogController().Log(string.Format("Error: not enough resources to construct {0}", buildingType));
             return false;
         }
 

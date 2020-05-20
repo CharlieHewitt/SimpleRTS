@@ -24,6 +24,7 @@ public class UnitPriorities
         totalPriority = 3f;
     }
 
+    // equal priorities
     private void SetToDefault()
     {
         foreach (UnitType type in Enum.GetNames(typeof(UnitType)).Cast<UnitType>())
@@ -32,6 +33,7 @@ public class UnitPriorities
         }
     }
     
+    // custom priorities
     public void SetToValues(float swordsmanPriority, float archerPriority, float wizardPriority)
     {
         if (swordsmanPriority + archerPriority + wizardPriority == 3f)
@@ -75,6 +77,7 @@ public class UnitPriorities
         }
     }
 
+    // check if priorities are valid
     public bool CheckSum()
     {
         float total = 0;
@@ -85,6 +88,8 @@ public class UnitPriorities
 
         return total == totalPriority;
     }
+
+    // --- Priority access
 
     public float Get(UnitType type)
     {

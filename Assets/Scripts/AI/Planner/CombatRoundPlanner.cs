@@ -29,7 +29,7 @@ public class CombatRoundPlanner
         commandQueue = new Queue<GameBehaviourCommand>();
     }
 
-    // Resource check!!!!!!!!!
+    // Generate Queue of planned commands to be executed by AI
     public Queue<AI_GameBehaviourCommand> PlanCombatRound()
     {
 
@@ -58,8 +58,8 @@ public class CombatRoundPlanner
         // Worker Optimisation
         Dictionary<ResourceType, int> idealWorkerDistribution = resourcePlanner.CalculateIdealWorkerDistribution();
 
-        // Resource Check -> Is it possible -> should always be yes
-
+        // Resource Check -> Is it possible -> should always be yes -> future implementation to avoid queue spilling into next round
+        // Time check?
 
         // Get WorkerCommand Queue
         Queue<AI_GameBehaviourCommand> workerCommands = resourcePlanner.GetWorkerReassignmentCommands(idealWorkerDistribution);
@@ -102,27 +102,4 @@ public class CombatRoundPlanner
     {
         return (armyPlanner.requiredMagicStone + buildingPlanner.magicStoneCost);
     }
-
-    // Copy Constructor
-    //public CombatRoundPlanner(CombatRoundPlanner combatRoundPlanner)
-    //{
-        
-    //}
-
-
-
-
-
-
-
-
-    // ++ RESOURCES>
-    //public bool IsPlanPossibleInTimeFrame()
-    //{
-
-    //}
-
-
-
-
 }

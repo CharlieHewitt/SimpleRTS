@@ -23,6 +23,7 @@ public class ArmyPlanner
     // -------------------------------------------------------------------------------------------------------------------------------------------------------
     // Planning Stage
 
+    // Check whether we can train this unit in this planning phase 
     public bool IsUnitTrainable(UnitType type, int remSupply, BuildingType plannedBuilding)
     {
         UnitPurchaseModel model = UnitPurchaseModelFactory.Create(type);
@@ -34,13 +35,13 @@ public class ArmyPlanner
         return prerequisite && enoughSupply;
     }
 
-    // generate target army
+    // generate target army for this combat phase
     public UnitMap GenerateTargetArmy(UnitPriorities unitPriorities, BuildingType plannedBuilding)
     {
         UnitMap targetArmy = new UnitMap(startingUnits);
-
         int remainingSupplyCopy = remainingSupply;
 
+        // while army not full (won't cause any issues as all units currently have 1 or 2 as their supplyCost, may need changes in future)
         while (remainingSupplyCopy > 0)
         {
             UnitPurchaseModel model = null;
@@ -61,6 +62,7 @@ public class ArmyPlanner
             };
         }
 
+        // check if supply has gone negative
         if (remainingSupplyCopy != 0)
         {
             Debug.LogError("supply < 0? (=" + remainingSupplyCopy + ")");
@@ -101,6 +103,7 @@ public class ArmyPlanner
     // -------------------------------------------------------------------------------------------------------------------------------------------------------
     // Execution Phase
 
+    // Gets command for given Unit type
     public GameBehaviourCommand GetUnitToAddToQueue(UnitType type)
     {
         UnitPurchaseModel model = UnitPurchaseModelFactory.Create(type);
@@ -117,12 +120,12 @@ public class ArmyPlanner
     // queue up target army creation
     public Queue<AI_GameBehaviourCommand> GetArmyConstructionCommands(UnitMap targetMap, BuildingType plannedBuilding)
     {
+        // calculate units that need to be trained
         Queue<AI_GameBehaviourCommand> armyCommands = new Queue<AI_GameBehaviourCommand>();
-
         UnitMap unitsToBeConstructed = startingUnits.UnitsRequiredToBecome(targetMap);
-
         Debug.Log(unitsToBeConstructed.StatusString());
 
+        // iterate over required units and add the command to the queue
         foreach (KeyValuePair<UnitType, int> unitMapEntry in unitsToBeConstructed.units)
         {
             UnitType type = unitMapEntry.Key;

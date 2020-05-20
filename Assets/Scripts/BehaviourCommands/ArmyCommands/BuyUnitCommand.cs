@@ -38,6 +38,8 @@ public class BuyUnitCommand : GameBehaviourCommand
             return false;
         }
 
+        // Check supply
+
         bool supplyAvailable = armyController.CheckSupply(model);
         if (!supplyAvailable)
         {
@@ -53,7 +55,7 @@ public class BuyUnitCommand : GameBehaviourCommand
         {
             armyController.AddUnitToBuildQueue(model);
         }
-        else
+        else // rejected
         {
             GetGameLogController().Log("Error: Not enough resources to construct" + unitType);
             return false;

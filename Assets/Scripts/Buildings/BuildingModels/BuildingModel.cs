@@ -6,7 +6,7 @@ public abstract class BuildingModel
 {
     public BuildingType type { get; protected set; }
 
-    // game ticks
+    // game ticks (seconds/5)
     public int constructionTime { get; protected set; }
 
     public ResourceTransaction buildCost { get; protected set; }

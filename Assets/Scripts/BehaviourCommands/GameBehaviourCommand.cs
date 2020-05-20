@@ -22,7 +22,7 @@ public abstract class GameBehaviourCommand
     }
 
 
-    // ----------- Utility methods for accessing controllers (cleaner code in commands)
+    // ----------- Utility methods for accessing controllers (cleaner code in commands themselves)
 
     protected GameController GetGameController()
     {

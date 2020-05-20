@@ -8,6 +8,7 @@ public class AI_Agent
     private UnitPriorities unitPriorities;
     private Queue<AI_GameBehaviourCommand> commandQueue;
 
+    // delayed command execution variables
     private bool waiting;
     private int waitedTicks;
     private int waitingForTicks;
@@ -30,6 +31,7 @@ public class AI_Agent
         commandQueue =  planner.PlanCombatRound();
     }
 
+    // Only queue up next command if it will execute succesfully
     public void TryQueueNext()
     {
         if (waiting || commandQueue.Count == 0)
@@ -46,6 +48,8 @@ public class AI_Agent
             aiCommand = commandQueue.Dequeue();
 
             GetGameBehaviourController().QueueUpCommand(aiCommand.command);
+
+            // force next command execution to wait
             if (aiCommand.waitForTicksAfterExecuting > 0)
             {
                 waitedTicks = 0;
@@ -62,6 +66,7 @@ public class AI_Agent
         }
     }
     
+    // random {x,y,z} -> sum = 3f
     public void RandomlyInitialiseUnitPriorities()
     {
         float x = 0f;
@@ -92,6 +97,8 @@ public class AI_Agent
 
         unitPriorities = new UnitPriorities(x, y, z);
     }
+
+    // TimeTickSystem.OnTick event handler
     public void TryQueueNext_OnTick(object sender, TimeTickSystem.OnTickEventArgs e)
     {
         TryQueueNext();

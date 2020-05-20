@@ -15,12 +15,14 @@ public class ResourcePlanner
         requiredMagicStone = 0;
     }
 
+    // used by CombatRoundPlanner to tell ResourcePlanner what the planned resource usage will be
     public void SetRequiredResources(int wood, int magicStone)
     {
         requiredWood = wood;
         requiredMagicStone = magicStone;
     }
 
+    // Calculate ideal worker distribution given the requested resources
     public Dictionary<ResourceType, int> CalculateIdealWorkerDistribution()
     {
         // Get max number of workers
@@ -28,6 +30,7 @@ public class ResourcePlanner
 
 
         float woodPercentage;
+
         // calculate % of workers to go on wood
         if (requiredMagicStone + requiredWood != 0)
         {
@@ -38,7 +41,7 @@ public class ResourcePlanner
             woodPercentage = 0.5f;
         }
 
-        // calculate actual numbers
+        // calculate actual numbers (based off number of workers)
         int woodWorkers = (int)(woodPercentage * numWorkers);
         int magicStoneWorkers = numWorkers - woodWorkers;
 
@@ -53,6 +56,7 @@ public class ResourcePlanner
         return workerDistribution;
     }
 
+    // Generate Queue of WorkerCommands
     public Queue<AI_GameBehaviourCommand> GetWorkerReassignmentCommands(Dictionary<ResourceType, int> distribution)
     {
 
@@ -97,7 +101,6 @@ public class ResourcePlanner
                 commands.Enqueue(aiCommand);
             }
         }
-
 
         // Add Wood Workers
         if (numWoodWorkersToAdd > 0)

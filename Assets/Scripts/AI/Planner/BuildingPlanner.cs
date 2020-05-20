@@ -40,10 +40,11 @@ public class BuildingPlanner
 
     }
 
+    // Get highest priority not-already built building, returns null if all are built.
     public BuildingModel PlanBuilding(UnitPriorities unitPriorities)
     {
-        // check if all buildings are built
-        // -> unnecessary checks
+        // check if all buildings are built?
+        // -> prevent unnecessary checks
         Dictionary<UnitType, float> priorities = unitPriorities.priorities;
 
         List<UnitType> unitTypesSortedByPriority = new List<UnitType>();
@@ -51,6 +52,7 @@ public class BuildingPlanner
         UnitType maxPriorityType = UnitType.SWORDSMAN;
         float maxPriorityValue = -1f;
 
+        // sort by priority
         while (unitTypesSortedByPriority.Count < priorities.Count)
         {
             foreach (KeyValuePair<UnitType, float> entry in priorities)
@@ -67,6 +69,7 @@ public class BuildingPlanner
             maxPriorityValue = -1f;
         }
 
+        // iterate over sorted list
         foreach (UnitType type in unitTypesSortedByPriority)
         {
 

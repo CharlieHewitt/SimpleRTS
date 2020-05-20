@@ -8,8 +8,8 @@ public class WizardStats : UnitStats
     public WizardStats()
     {
         unitType = UnitType.WIZARD;
-        attackDamage = 70;
+        attackDamage = 60;
         attackSpeed = 1;
-        health = 71;
+        health = 70;
     }
 }

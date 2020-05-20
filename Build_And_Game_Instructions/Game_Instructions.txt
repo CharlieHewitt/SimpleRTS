@@ -1,0 +1,57 @@
+Simple_RTS:
+
+Goal:
+The goal of the game is to defeat the AI opponent. There will be a combat round every 2-3 minutes (see clock in bottom left corner), for which you should prepare an army.
+
+Winning:
+The first player to reduce the opponents health to 0 by winning 3 of these rounds is the winner.
+
+Controlling the game:
+You interact with the game through 3 menus, which are accessible with the buttons in the bottom right corner of the screen
+
+Building Menu (house icon):
+This is the menu that will be open when the game first starts. Here you can select a building to construct on a certain build plot.
+There is a limit of one building of each type. 
+If you are trying to build a building and it is not letting you, make sure you have enough resources & have selected an empty building plot from the dropdown menu! 
+
+Worker Menu (person icon):
+You can reassign workers here to help optimise your resource gathering to construct the things you want faster!
+Make sure to remove workers from a resource before adding them to another!
+
+Note: After every combat round your supply cap and number of workers increases! So be sure to check back here often to see if you have any idle workers.
+(There is a reminder message on the combat result screen)
+
+Army Menu (sword icon):
+You can view your current unit numbers & train new units here.
+To train a unit you need to have the required resources, enough supply to create the unit and have it's prerequisite building constructed.
+(Don't panic if you've built the building and can't make the units yet, it needs to finish building first! 
+
+Note: As long as you have the required resources & supply you can queue up multiple units at once (only finished ones will participate in the upcoming combat round though)
+
+
+-- Suggested plan for first try:
+
+-> change workers to 9 on wood, 1 on magic stone
+-> wait for resources to build blacksmiths (Building Menu)
+-> Build blacksmiths
+-> wait for completion
+-> wait for resources/build 20 swordsmen (Army Menu)
+-> wait for combat round 
+-> see result, hopefully you've won
+
+-> read the message reminding you to assign your 5 new workers to a resource!
+-> assign workers 
+
+-> plan for round 2
+
+-> Lets try something a little bit different, decide on a second unit (Archer or Wizard)
+-> look at the building cost / training cost
+-> modify worker counts to help reach these resources
+-> build building asap
+-> build mixed army of units
+
+-> Eventually you should have all the buildings built, and can build different army compositions or stick to the same ones until to game ends.
+
+
+Happy gaming.
+Hopefully your feedback will improve the game in the future!

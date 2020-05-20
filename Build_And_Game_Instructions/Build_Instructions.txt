@@ -1,0 +1,15 @@
+This game was made using Unity2019.3.11f1.
+
+The build settings should already be in the project in a settings file. (I've seen something in GitHub commits)
+
+In the case that this isn't the case I have supplied two screenshots of the build settings I might have slightly changed.
+(The game is set to play in a 1280x720p Window)
+
+-- Note: In case of issues
+
+I have had some issues with the game causing unity to randomly freeze on start in the editor for no obvious reason. 
+- Could probably be fixed by forcing Unity to run scripts in a certain order in the settings, but it hasn't been a big enough problem for me to warrant this action.
+Hopefully it behaves for you.
+
+This does not seem to happen after building the game. 
+(Sometimes the first time after building, but just don't click anything and it should load, or worst case restart it once)

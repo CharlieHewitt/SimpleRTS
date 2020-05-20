@@ -37,7 +37,6 @@ public class ConstructBuildingCommand : GameBehaviourCommand
             Debug.LogError(string.Format("Error: there is already a {0} on another plot.", buildingType));
             GetGameLogController().Log(string.Format("Error: there is already a {0} on another plot.", buildingType));
 
-
             //abort
             return false;
         }
